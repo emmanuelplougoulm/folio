@@ -56,6 +56,9 @@ importers:
       '@emmanuelplougoulm/folio':
         specifier: workspace:^
         version: link:../../packages/ui
+      '@folio/emails':
+        specifier: workspace:^
+        version: link:../../packages/emails
       vue:
         specifier: ^3.5
         version: 3.5.46(typescript@6.0.3)

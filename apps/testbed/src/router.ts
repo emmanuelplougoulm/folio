@@ -66,6 +66,12 @@ export const router = createRouter({
           meta: { titleKey: 'order.confirmation.title' }
         },
         {
+          path: 'outbox',
+          name: 'outbox',
+          component: () => import('./pages/OutboxPage.vue'),
+          meta: { titleKey: 'outbox.title' }
+        },
+        {
           path: 'error',
           name: 'server-error',
           component: () => import('./pages/ServerErrorPage.vue'),

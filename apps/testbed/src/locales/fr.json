@@ -14,7 +14,8 @@
   "nav": {
     "signIn": "Se connecter",
     "account": "Mon compte",
-    "order": "Commander"
+    "order": "Commander",
+    "outbox": "Boîte de test"
   },
   "home": {
     "title": "Un parcours de démonstration, testé de bout en bout",
@@ -264,7 +265,9 @@
     "security": {
       "label": "Sécurité du paiement",
       "tooltip": "Paiement simulé : aucune donnée de carte ne quitte votre navigateur."
-    }
+    },
+    "email": "Adresse e-mail",
+    "emailHint": "Nous y envoyons la confirmation de commande."
   },
   "notifications": {
     "label": "Notification",
@@ -288,5 +291,23 @@
     "body": "Nous n'avons pas pu afficher cette page. Réessayez, ou revenez à l'accueil.",
     "retry": "Réessayer",
     "home": "Revenir à l'accueil"
+  },
+  "outbox": {
+    "title": "Boîte de réception de test",
+    "intro": "Les e-mails de l'application ne partent pas vraiment : ils arrivent ici, pour les vérifier dans les trois langues.",
+    "caption": "E-mails envoyés",
+    "columns": {
+      "subject": "Objet",
+      "to": "Destinataire",
+      "language": "Langue",
+      "sentAt": "Envoyé le"
+    },
+    "preheader": "Aperçu",
+    "previewTitle": "Aperçu de l'e-mail : {subject}",
+    "textVersion": "Version texte",
+    "clear": "Vider la boîte",
+    "cleared": "La boîte de test est vide",
+    "emptyTitle": "Aucun e-mail pour l'instant",
+    "emptyBody": "Passez une commande ou connectez-vous : les e-mails envoyés apparaîtront ici."
   }
 }

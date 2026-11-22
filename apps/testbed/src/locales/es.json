@@ -14,7 +14,8 @@
   "nav": {
     "signIn": "Iniciar sesión",
     "account": "Mi cuenta",
-    "order": "Hacer un pedido"
+    "order": "Hacer un pedido",
+    "outbox": "Bandeja de prueba"
   },
   "home": {
     "title": "Un recorrido de demostración, probado de principio a fin",
@@ -264,7 +265,9 @@
     "security": {
       "label": "Seguridad del pago",
       "tooltip": "Pago simulado: ningún dato de la tarjeta sale de tu navegador."
-    }
+    },
+    "email": "Correo electrónico",
+    "emailHint": "Te enviaremos aquí la confirmación del pedido."
   },
   "notifications": {
     "label": "Notificación",
@@ -288,5 +291,23 @@
     "body": "No hemos podido mostrar esta página. Inténtalo de nuevo o vuelve al inicio.",
     "retry": "Reintentar",
     "home": "Volver al inicio"
+  },
+  "outbox": {
+    "title": "Bandeja de entrada de prueba",
+    "intro": "Los correos de la aplicación no se envían de verdad: llegan aquí para revisarlos en los tres idiomas.",
+    "caption": "Correos enviados",
+    "columns": {
+      "subject": "Asunto",
+      "to": "Destinatario",
+      "language": "Idioma",
+      "sentAt": "Enviado"
+    },
+    "preheader": "Vista previa",
+    "previewTitle": "Vista previa del correo: {subject}",
+    "textVersion": "Versión de texto",
+    "clear": "Vaciar la bandeja",
+    "cleared": "La bandeja de prueba está vacía",
+    "emptyTitle": "Todavía no hay correos",
+    "emptyBody": "Haz un pedido o inicia sesión: los correos enviados aparecerán aquí."
   }
 }

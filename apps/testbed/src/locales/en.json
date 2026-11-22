@@ -14,7 +14,8 @@
   "nav": {
     "signIn": "Sign in",
     "account": "My account",
-    "order": "Order"
+    "order": "Order",
+    "outbox": "Test inbox"
   },
   "home": {
     "title": "A demo journey, tested end to end",
@@ -264,7 +265,9 @@
     "security": {
       "label": "Payment security",
       "tooltip": "Mock payment: no card data leaves your browser."
-    }
+    },
+    "email": "Email address",
+    "emailHint": "We'll send your order confirmation here."
   },
   "notifications": {
     "label": "Notification",
@@ -288,5 +291,23 @@
     "body": "We couldn't show this page. Try again, or go back to the home page.",
     "retry": "Try again",
     "home": "Back to home"
+  },
+  "outbox": {
+    "title": "Test inbox",
+    "intro": "The app's emails aren't really sent: they land here, so you can check them in all three languages.",
+    "caption": "Sent emails",
+    "columns": {
+      "subject": "Subject",
+      "to": "To",
+      "language": "Language",
+      "sentAt": "Sent"
+    },
+    "preheader": "Preview text",
+    "previewTitle": "Email preview: {subject}",
+    "textVersion": "Plain-text version",
+    "clear": "Empty inbox",
+    "cleared": "The test inbox is empty",
+    "emptyTitle": "No emails yet",
+    "emptyBody": "Place an order or sign in: sent emails will appear here."
   }
 }
