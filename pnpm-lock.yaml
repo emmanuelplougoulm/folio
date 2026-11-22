@@ -94,6 +94,25 @@ importers:
         specifier: ^3
         version: 3.3.14(typescript@6.0.3)
 
+  packages/emails:
+    dependencies:
+      '@emmanuelplougoulm/folio':
+        specifier: workspace:^
+        version: link:../ui
+    devDependencies:
+      '@types/node':
+        specifier: ^22
+        version: 22.20.5
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^5
+        version: 5.1.1(@types/node@22.20.5)(@vitest/browser-playwright@5.1.1)(@vitest/ui@5.1.1)(happy-dom@21.0.4)(vite@8.3.8(@types/node@22.20.5)(esbuild@0.28.2))
+      vue-tsc:
+        specifier: ^3
+        version: 3.3.14(typescript@6.0.3)
+
   packages/ui:
     dependencies:
       '@fontsource-variable/source-sans-3':

@@ -1,0 +1,23 @@
+{
+  "name": "@folio/emails",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Gabarits d'e-mails du banc d'essai (FR, EN, ES), stylés avec les tokens Folio.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@emmanuelplougoulm/folio": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "~6.0.3",
+    "vitest": "^5",
+    "vue-tsc": "^3"
+  }
+}
