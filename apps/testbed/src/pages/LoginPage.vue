@@ -14,6 +14,8 @@ import {
 } from '@emmanuelplougoulm/folio';
 import { signIn } from '../services/auth';
 import { session } from '../services/session';
+import { appUrl, sendEmail } from '../services/mailer';
+import type { Locale } from '../i18n';
 import { validateEmail, validatePassword } from '../forms/validators';
 import { ACCOUNTS, DEMO_PASSWORD } from '../mocks/accounts';
 
@@ -55,6 +57,15 @@ async function onSubmit() {
       return;
     }
     session.start(result.user);
+    // E-mail de sécurité, dans la langue de la page de connexion.
+    sendEmail(result.user.email, locale.value as Locale, {
+      template: 'sign-in-alert',
+      data: {
+        name: result.user.name,
+        signedInAt: new Date().toISOString(),
+        accountUrl: appUrl(`/${locale.value}/account`)
+      }
+    });
     toast.show({
       title: t('toasts.signedIn.title'),
       description: t('toasts.signedIn.description', { name: result.user.name }),

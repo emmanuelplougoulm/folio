@@ -13,10 +13,12 @@ import {
   FTooltip,
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
-import { deliveryFee, offerPrice } from '../../order/catalog';
+import { PICKUP_POINTS, deliveryFee, offerPrice } from '../../order/catalog';
 import { draft, lastOrder, resetDraft } from '../../order/draft';
 import { addOrder } from '../../order/history';
 import { session } from '../../services/session';
+import { appUrl, sendEmail } from '../../services/mailer';
+import { validateEmail } from '../../forms/validators';
 import { formatPrice } from '../../order/format';
 import { CHALLENGE_CODE, TEST_CARDS } from '../../mocks/cards';
 import {
@@ -38,6 +40,8 @@ type Failure =
 
 // Données de carte : état local uniquement, jamais dans le brouillon ni dans sessionStorage.
 const card = reactive<CardInput>({ number: '', expiry: '', cvc: '', name: '' });
+// Adresse de confirmation : pré-remplie si connecté.
+const email = ref(session.user.value?.email ?? '');
 const submitted = ref(false);
 const pending = ref(false);
 const failure = ref<Failure | null>(null);
@@ -45,9 +49,14 @@ const summary = ref<ErrorSummaryItem[]>([]);
 
 const challenge = reactive({ open: false, id: '', code: '', error: '', pending: false });
 
-const FIELDS: CardField[] = ['number', 'expiry', 'cvc', 'name'];
-const errors = computed(() => (submitted.value ? validateCard(card) : {}));
-const message = (field: CardField) => {
+type PaymentField = CardField | 'email';
+const FIELDS: PaymentField[] = ['email', 'number', 'expiry', 'cvc', 'name'];
+const errors = computed<Partial<Record<PaymentField, string>>>(() => {
+  if (!submitted.value) return {};
+  const emailError = validateEmail(email.value);
+  return { ...(emailError ? { email: emailError } : {}), ...validateCard(card) };
+});
+const message = (field: PaymentField) => {
   const key = errors.value[field];
   return key ? t(key) : undefined;
 };
@@ -84,6 +93,24 @@ const testCards = computed(() => [
 
 async function complete(orderNumber: string) {
   lastOrder.value = { number: orderNumber };
+  const point = PICKUP_POINTS.find((p) => p.id === draft.pickupPoint);
+  sendEmail(email.value.trim(), locale.value as Locale, {
+    template: 'order-confirmation',
+    data: {
+      orderNumber,
+      customerName: session.user.value?.name ?? (card.name.trim() || undefined),
+      offer: draft.offer ? t(`order.offers.${draft.offer}.name`) : '',
+      delivery:
+        draft.method === 'relay' && point
+          ? `${t('order.delivery.methods.relay.name')} · ${point.name}`
+          : draft.method
+            ? t(`order.delivery.methods.${draft.method}.name`)
+            : '',
+      total: total.value,
+      placedAt: new Date().toISOString(),
+      accountUrl: appUrl(`/${locale.value}/account`)
+    }
+  });
   if (draft.offer) {
     addOrder({
       number: orderNumber,
@@ -102,6 +129,7 @@ async function onSubmit() {
   submitted.value = true;
   failure.value = null;
   summary.value = toSummary(FIELDS, errors.value, t, {
+    email: 'receiptEmail',
     number: 'cardNumber',
     expiry: 'cardExpiry',
     cvc: 'cardCvc',
@@ -196,6 +224,22 @@ const failureMessage = computed(() => {
     </FAlert>
 
     <form class="tb-order__form" novalidate @submit.prevent="onSubmit">
+      <FFormField
+        id="receiptEmail"
+        :label="t('payment.email')"
+        :hint="t('payment.emailHint')"
+        :error="message('email')"
+        required
+      >
+        <FTextInput
+          v-model="email"
+          type="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          spellcheck="false"
+        />
+      </FFormField>
       <FFormField
         id="cardNumber"
         :label="t('payment.number')"
