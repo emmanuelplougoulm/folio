@@ -1,7 +1,15 @@
 import { reactive, ref, watch } from 'vue';
 import type { Country, DeliveryMethod, OfferId } from './catalog';
+import {
+  LEGACY_VERSION,
+  defaultVersion,
+  isProcessVersion,
+  type ProcessVersion
+} from './process';
 
 export interface OrderDraft {
+  /** Version du processus, figée à la création du brouillon. */
+  processVersion: ProcessVersion;
   offer: OfferId | undefined;
   method: DeliveryMethod | undefined;
   fullName: string;
@@ -12,6 +20,9 @@ export interface OrderDraft {
   /** Identifiant d'un point de PICKUP_POINTS, ou vide. */
   pickupPoint: string;
   instructions: string;
+  /** Coordonnées (étape « contact », à partir de la v2). */
+  email: string;
+  phone: string;
   acceptedTerms: boolean;
   /** Réservation obtenue en validant le récapitulatif : elle ouvre l'étape de paiement. */
   reservation: string | null;
@@ -25,6 +36,7 @@ export interface PlacedOrder {
 const STORAGE_KEY = 'folio-testbed:order';
 
 const empty = (): OrderDraft => ({
+  processVersion: defaultVersion.value,
   offer: undefined,
   method: undefined,
   fullName: '',
@@ -34,14 +46,35 @@ const empty = (): OrderDraft => ({
   country: '',
   pickupPoint: '',
   instructions: '',
+  email: '',
+  phone: '',
   acceptedTerms: false,
   reservation: null
 });
 
+/**
+ * Relit un brouillon enregistré. Un brouillon sans version date d'avant les versions :
+ * il continue en v1, le processus avec lequel il a été commencé.
+ */
+export function parseDraft(raw: string | null): OrderDraft {
+  if (!raw) return empty();
+  try {
+    const saved = JSON.parse(raw) as Partial<OrderDraft>;
+    return {
+      ...empty(),
+      ...saved,
+      processVersion: isProcessVersion(saved.processVersion)
+        ? saved.processVersion
+        : LEGACY_VERSION
+    };
+  } catch {
+    return empty();
+  }
+}
+
 function restore(): OrderDraft {
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
-    return raw ? { ...empty(), ...(JSON.parse(raw) as Partial<OrderDraft>) } : empty();
+    return parseDraft(sessionStorage.getItem(STORAGE_KEY));
   } catch {
     return empty();
   }
@@ -63,6 +96,10 @@ watch(draft, (value) => {
 
 export const lastOrder = ref<PlacedOrder | null>(null);
 
+/** Nouveau brouillon, dans la version par défaut du moment. */
 export function resetDraft() {
   Object.assign(draft, empty());
 }
+
+/** Un brouillon sans offre n'a rien commencé : on peut encore en changer la version. */
+export const isPristine = (d: OrderDraft): boolean => !d.offer;

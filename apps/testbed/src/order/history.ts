@@ -1,5 +1,6 @@
 import { computed, ref, watch, type ComputedRef } from 'vue';
 import type { OfferId } from './catalog';
+import type { ProcessVersion } from './process';
 import { SEEDED_ORDERS } from '../mocks/orders';
 
 export type OrderStatus = 'confirmed' | 'preparing' | 'delivered' | 'cancelled';
@@ -13,6 +14,8 @@ export interface StoredOrder {
   /** Montant en centimes. */
   total: number;
   status: OrderStatus;
+  /** Version du processus suivie (absente des commandes passées avant les versions). */
+  processVersion?: ProcessVersion;
 }
 
 const STORAGE_KEY = 'folio-testbed:orders';

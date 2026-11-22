@@ -3,15 +3,22 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { FStepper } from '@emmanuelplougoulm/folio';
-import { ORDER_STEPS } from '../../order/steps';
+import { draft } from '../../order/draft';
+import { stepsOf } from '../../order/process';
 
 const { t, locale } = useI18n();
 const route = useRoute();
 
+// Les étapes dépendent de la version du processus avec laquelle la commande a commencé.
 const steps = computed(() =>
-  ORDER_STEPS.map((id) => ({ id, label: t(`order.steps.${id}`) }))
+  stepsOf(draft.processVersion).map((id) => ({ id, label: t(`order.steps.${id}`) }))
 );
-const current = computed(() => route.meta.step ?? 0);
+const current = computed(() =>
+  Math.max(
+    steps.value.findIndex((step) => step.id === route.meta.step),
+    0
+  )
+);
 const statusLabels = computed(() => ({
   complete: t('order.stepStatus.complete'),
   current: t('order.stepStatus.current'),
@@ -38,6 +45,14 @@ const statusLabels = computed(() => ({
       </template>
     </FStepper>
     <RouterView />
+    <p class="tb-order__version">
+      {{
+        t('process.inOrder', { version: t(`process.versions.${draft.processVersion}`) })
+      }}
+      <RouterLink :to="{ name: 'process', params: { locale } }">{{
+        t('process.notesLink')
+      }}</RouterLink>
+    </p>
   </div>
 </template>
 
@@ -47,6 +62,12 @@ const statusLabels = computed(() => ({
   flex-direction: column;
   gap: var(--f-space-8);
   max-inline-size: 36rem;
+}
+
+.tb-order__version {
+  margin: 0;
+  font-size: var(--f-font-size-sm);
+  color: var(--f-color-text-muted);
 }
 
 .tb-order__step-link {

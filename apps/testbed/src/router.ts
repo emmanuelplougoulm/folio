@@ -2,8 +2,9 @@ import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { detectLocale, i18n, isLocale } from './i18n';
 import { session } from './services/session';
-import { draft, lastOrder } from './order/draft';
-import { ORDER_STEPS } from './order/steps';
+import { draft, isPristine, lastOrder } from './order/draft';
+import { ORDER_STEPS, type OrderStep } from './order/steps';
+import { isProcessVersion, stepsOf } from './order/process';
 import { firstIncompleteStep } from './order/validation';
 
 declare module 'vue-router' {
@@ -11,8 +12,8 @@ declare module 'vue-router' {
     /** Clé i18n du titre de la page (WCAG 2.4.2). */
     titleKey?: string;
     requiresAuth?: boolean;
-    /** Index de l'étape dans le tunnel de commande. */
-    step?: number;
+    /** Étape du tunnel de commande. */
+    step?: OrderStep;
   }
 }
 
@@ -46,16 +47,17 @@ export const router = createRouter({
           component: () => import('./pages/order/OrderLayout.vue'),
           children: [
             { path: '', redirect: { name: 'order-offer' } },
-            ...ORDER_STEPS.map((id, step) => ({
+            ...ORDER_STEPS.map((id) => ({
               path: id,
               name: `order-${id}`,
               component: {
                 offer: () => import('./pages/order/OfferStep.vue'),
                 delivery: () => import('./pages/order/DeliveryStep.vue'),
+                contact: () => import('./pages/order/ContactStep.vue'),
                 review: () => import('./pages/order/ReviewStep.vue'),
                 payment: () => import('./pages/order/PaymentStep.vue')
               }[id],
-              meta: { titleKey: `order.steps.${id}`, step }
+              meta: { titleKey: `order.steps.${id}`, step: id }
             }))
           ]
         },
@@ -64,6 +66,12 @@ export const router = createRouter({
           name: 'order-confirmation',
           component: () => import('./pages/order/ConfirmationPage.vue'),
           meta: { titleKey: 'order.confirmation.title' }
+        },
+        {
+          path: 'process',
+          name: 'process',
+          component: () => import('./pages/ProcessPage.vue'),
+          meta: { titleKey: 'process.title' }
         },
         {
           path: 'outbox',
@@ -109,12 +117,23 @@ router.beforeEach((to) => {
       query: { redirect: to.fullPath }
     };
   }
-  // Tunnel : impossible de sauter une étape incomplète (lien direct, rechargement).
   if (to.meta.step !== undefined) {
+    // Point d'essai : ?process=v1 choisit la version d'une commande qui n'a pas commencé.
+    // Une commande en cours garde la sienne : le paramètre est alors ignoré.
+    const { process, ...query } = to.query;
+    if (process !== undefined) {
+      if (isProcessVersion(process) && isPristine(draft)) draft.processVersion = process;
+      return { path: to.path, query, hash: to.hash, replace: true };
+    }
+    // Tunnel : impossible de sauter une étape incomplète (lien direct, rechargement),
+    // ni d'ouvrir une étape que la version de la commande ne comporte pas.
+    const steps = stepsOf(draft.processVersion);
     const allowed = firstIncompleteStep(draft);
-    const target = ORDER_STEPS[allowed];
-    if (to.meta.step > allowed && target) {
-      return { name: `order-${target}`, params: to.params };
+    if (
+      !steps.includes(to.meta.step) ||
+      steps.indexOf(to.meta.step) > steps.indexOf(allowed)
+    ) {
+      return { name: `order-${allowed}`, params: to.params };
     }
   }
   if (to.name === 'order-confirmation' && !lastOrder.value) {

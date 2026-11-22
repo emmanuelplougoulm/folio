@@ -15,7 +15,8 @@
     "signIn": "Sign in",
     "account": "My account",
     "order": "Order",
-    "outbox": "Test inbox"
+    "outbox": "Test inbox",
+    "process": "Versions"
   },
   "home": {
     "title": "A demo journey, tested end to end",
@@ -108,6 +109,7 @@
     "steps": {
       "offer": "Plan",
       "delivery": "Delivery",
+      "contact": "Contact details",
       "review": "Review",
       "payment": "Payment"
     },
@@ -203,7 +205,15 @@
       "city": "Enter your town or city.",
       "country": "Choose a country.",
       "pickupPoint": "Choose a pickup point.",
-      "terms": "Accept the terms and conditions of sale to confirm your order."
+      "terms": "Accept the terms and conditions of sale to confirm your order.",
+      "phone": "Enter a valid phone number, for example 07700 900123."
+    },
+    "contact": {
+      "title": "Your contact details",
+      "email": "Email address",
+      "emailHint": "We'll send the order confirmation there.",
+      "phone": "Phone (optional)",
+      "phoneHint": "To get a text message about your delivery. For example 07700 900123."
     }
   },
   "payment": {
@@ -309,5 +319,37 @@
     "cleared": "The test inbox is empty",
     "emptyTitle": "No emails yet",
     "emptyBody": "Place an order or sign in: sent emails will appear here."
+  },
+  "process": {
+    "title": "Order process versions",
+    "intro": "The order process changes in versions. An order keeps the version it was started with, even if the default version changes in the meantime.",
+    "legend": "Version for new orders",
+    "hint": "Demo setting, kept for this tab.",
+    "save": "Save",
+    "saved": "New orders will follow {version}",
+    "inProgress": "The order in progress stays on {version}.",
+    "releasesTitle": "Release notes",
+    "releasedOn": "Released on {date}",
+    "stepsLabel": "Steps: {steps}",
+    "status": {
+      "current": "Current",
+      "maintained": "Maintained"
+    },
+    "versions": {
+      "v1": "version 1",
+      "v2": "version 2"
+    },
+    "summaries": {
+      "v1": "4 steps, email entered at payment",
+      "v2": "5 steps, with contact details before the review"
+    },
+    "changes": {
+      "tunnel": "Four-step process: offer, delivery, review, payment.",
+      "pickupPoints": "Pickup point collection, with a point search.",
+      "contactStep": "New \"Contact details\" step: the confirmation email moves out of the payment page, and customers can leave a phone number for delivery updates.",
+      "freeDelivery": "Free home delivery from €30 a month."
+    },
+    "inOrder": "Order on {version} of the process.",
+    "notesLink": "Release notes"
   }
 }

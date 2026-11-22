@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import type { OrderDraft } from './draft';
-import { firstIncompleteStep, validateDelivery, validateOffer } from './validation';
+import {
+  firstIncompleteStep,
+  validateContact,
+  validateDelivery,
+  validateOffer
+} from './validation';
 
 const base: OrderDraft = {
+  processVersion: 'v1',
   offer: undefined,
   method: undefined,
   fullName: '',
@@ -12,6 +18,8 @@ const base: OrderDraft = {
   country: '',
   pickupPoint: '',
   instructions: '',
+  email: '',
+  phone: '',
   acceptedTerms: false,
   reservation: null
 };
@@ -66,13 +74,49 @@ describe('validation de la commande', () => {
     expect(validateDelivery({ ...home, country, postalCode }).postalCode).toBe(expected);
   });
 
-  it('première étape incomplète', () => {
-    expect(firstIncompleteStep(base)).toBe(0);
-    expect(firstIncompleteStep({ ...base, offer: 'pro' })).toBe(1);
-    expect(firstIncompleteStep(home)).toBe(2);
-    expect(firstIncompleteStep({ ...home, acceptedTerms: true })).toBe(2);
+  it('première étape incomplète, v1', () => {
+    expect(firstIncompleteStep(base)).toBe('offer');
+    expect(firstIncompleteStep({ ...base, offer: 'pro' })).toBe('delivery');
+    expect(firstIncompleteStep(home)).toBe('review');
+    expect(firstIncompleteStep({ ...home, acceptedTerms: true })).toBe('review');
     expect(
       firstIncompleteStep({ ...home, acceptedTerms: true, reservation: 'R-1' })
-    ).toBe(3);
+    ).toBe('payment');
+  });
+
+  it('première étape incomplète, v2 : les coordonnées avant le récapitulatif', () => {
+    const v2 = { ...home, processVersion: 'v2' as const };
+    expect(firstIncompleteStep(v2)).toBe('contact');
+    expect(firstIncompleteStep({ ...v2, email: 'ana@exemple.fr' })).toBe('review');
+    expect(
+      firstIncompleteStep({
+        ...v2,
+        email: 'ana@exemple.fr',
+        acceptedTerms: true,
+        reservation: 'R-1'
+      })
+    ).toBe('payment');
+  });
+
+  it('coordonnées : e-mail requis, téléphone facultatif mais valide', () => {
+    expect(validateContact(base)).toEqual({ email: 'validation.email.required' });
+    const ok = { ...base, email: 'ana@exemple.fr' };
+    expect(validateContact(ok)).toEqual({});
+    expect(validateContact({ ...ok, email: 'ana@' })).toEqual({
+      email: 'validation.email.format'
+    });
+  });
+
+  it.each([
+    ['06 12 34 56 78', undefined],
+    ['+33 6 12 34 56 78', undefined],
+    ['+34 612.34.56.78', undefined],
+    ['0612', 'order.errors.phone'],
+    ['06 12 34 56 7a', 'order.errors.phone'],
+    ['+33 6 12 34 56 78 90 12 34', 'order.errors.phone']
+  ] as const)('téléphone « %s »', (phone, expected) => {
+    expect(validateContact({ ...base, email: 'ana@exemple.fr', phone }).phone).toBe(
+      expected
+    );
   });
 });

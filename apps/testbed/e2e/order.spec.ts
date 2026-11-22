@@ -7,7 +7,7 @@ const stepper = (page: Page) =>
   page.getByRole('navigation', { name: 'Étapes de la commande' });
 
 async function chooseOffer(page: Page, name = 'Plus') {
-  await page.goto('/fr/order');
+  await page.goto('/fr/order?process=v1');
   await page.getByLabel(name).check();
   await continueButton(page).click();
   await expect(page).toHaveURL('/fr/order/delivery');
@@ -29,7 +29,7 @@ const axe = (page: Page) =>
 
 test.describe('tunnel de commande', () => {
   test('étape 1 : offre obligatoire, carte entièrement cliquable', async ({ page }) => {
-    await page.goto('/fr/order');
+    await page.goto('/fr/order?process=v1');
     await expect(page).toHaveURL('/fr/order/offer');
     await expect(stepper(page).getByRole('listitem').nth(0)).toHaveAttribute(
       'aria-current',
@@ -183,7 +183,7 @@ test.describe('tunnel de commande', () => {
 });
 
 test('montants et messages localisés (anglais)', async ({ page }) => {
-  await page.goto('/en/order');
+  await page.goto('/en/order?process=v1');
   await expect(page.getByText('€19.90 per month')).toBeVisible();
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(
@@ -195,7 +195,7 @@ test.describe('accessibilité du tunnel (axe, WCAG 2.2 AA)', () => {
   for (const colorScheme of ['light', 'dark'] as const) {
     test(`étapes en erreur, thème ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme });
-      await page.goto('/es/order');
+      await page.goto('/es/order?process=v1');
       await page.getByRole('button', { name: 'Continuar' }).click();
       expect((await axe(page)).violations).toEqual([]);
 

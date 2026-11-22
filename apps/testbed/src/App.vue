@@ -48,6 +48,11 @@ const languages = computed(() =>
           >{{ t('nav.outbox') }}</RouterLink
         >
         <RouterLink
+          class="tb-header__link"
+          :to="{ name: 'process', params: { locale } }"
+          >{{ t('nav.process') }}</RouterLink
+        >
+        <RouterLink
           v-if="session.user.value"
           class="tb-header__link"
           :to="{ name: 'account', params: { locale } }"

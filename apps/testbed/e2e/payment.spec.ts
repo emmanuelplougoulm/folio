@@ -23,7 +23,7 @@ async function reachPayment(page: Page, locale = 'fr') {
       toPayment: 'Continue to payment'
     }
   }[locale as 'fr' | 'en'];
-  await page.goto(`/${locale}/order`);
+  await page.goto(`/${locale}/order?process=v1`);
   await page.getByLabel(labels.offer).check();
   await page.getByRole('button', { name: labels.next }).click();
   await page.getByRole('radio', { name: labels.relay }).check();

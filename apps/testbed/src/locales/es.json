@@ -15,7 +15,8 @@
     "signIn": "Iniciar sesión",
     "account": "Mi cuenta",
     "order": "Hacer un pedido",
-    "outbox": "Bandeja de prueba"
+    "outbox": "Bandeja de prueba",
+    "process": "Versiones"
   },
   "home": {
     "title": "Un recorrido de demostración, probado de principio a fin",
@@ -108,6 +109,7 @@
     "steps": {
       "offer": "Oferta",
       "delivery": "Entrega",
+      "contact": "Datos de contacto",
       "review": "Resumen",
       "payment": "Pago"
     },
@@ -203,7 +205,15 @@
       "city": "Introduce tu ciudad.",
       "country": "Elige un país.",
       "pickupPoint": "Elige un punto de recogida.",
-      "terms": "Acepta las condiciones generales de venta para confirmar el pedido."
+      "terms": "Acepta las condiciones generales de venta para confirmar el pedido.",
+      "phone": "Introduce un número de teléfono válido, por ejemplo 612 34 56 78."
+    },
+    "contact": {
+      "title": "Tus datos de contacto",
+      "email": "Correo electrónico",
+      "emailHint": "Te enviaremos ahí la confirmación del pedido.",
+      "phone": "Teléfono (opcional)",
+      "phoneHint": "Para recibir un SMS sobre la entrega. Por ejemplo 612 34 56 78."
     }
   },
   "payment": {
@@ -309,5 +319,37 @@
     "cleared": "La bandeja de prueba está vacía",
     "emptyTitle": "Todavía no hay correos",
     "emptyBody": "Haz un pedido o inicia sesión: los correos enviados aparecerán aquí."
+  },
+  "process": {
+    "title": "Versiones del proceso de pedido",
+    "intro": "El proceso de pedido evoluciona por versiones. Un pedido conserva la versión con la que se empezó, aunque la versión por defecto cambie mientras tanto.",
+    "legend": "Versión para los pedidos nuevos",
+    "hint": "Ajuste de demostración, conservado en esta pestaña.",
+    "save": "Guardar",
+    "saved": "Los pedidos nuevos seguirán la {version}",
+    "inProgress": "El pedido en curso sigue en la {version}.",
+    "releasesTitle": "Notas de la versión",
+    "releasedOn": "Publicada el {date}",
+    "stepsLabel": "Pasos: {steps}",
+    "status": {
+      "current": "Actual",
+      "maintained": "Mantenida"
+    },
+    "versions": {
+      "v1": "versión 1",
+      "v2": "versión 2"
+    },
+    "summaries": {
+      "v1": "4 pasos, correo introducido en el pago",
+      "v2": "5 pasos, con los datos de contacto antes del resumen"
+    },
+    "changes": {
+      "tunnel": "Proceso en cuatro pasos: oferta, entrega, resumen, pago.",
+      "pickupPoints": "Recogida en punto de recogida, con búsqueda del punto.",
+      "contactStep": "Nuevo paso «Datos de contacto»: el correo de confirmación sale de la página de pago, y se puede dejar un teléfono para recibir avisos de la entrega.",
+      "freeDelivery": "Entrega a domicilio gratuita a partir de 30 € al mes."
+    },
+    "inOrder": "Pedido en la {version} del proceso.",
+    "notesLink": "Notas de la versión"
   }
 }

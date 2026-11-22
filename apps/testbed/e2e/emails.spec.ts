@@ -36,7 +36,7 @@ async function placeOrder(page: Page, locale: 'fr' | 'es', email: string) {
       offer: 'Plus'
     }
   }[locale];
-  await page.goto(`/${locale}/order`);
+  await page.goto(`/${locale}/order?process=v1`);
   await page.getByLabel(l.offer).check();
   await page.getByRole('button', { name: l.next }).click();
   await page.getByRole('radio', { name: l.relay }).check();
@@ -130,7 +130,7 @@ test.describe('e-mails', () => {
     await page.getByRole('button', { name: 'Se connecter' }).click();
     await expect(page).toHaveURL('/fr/account');
 
-    await page.goto('/fr/order');
+    await page.goto('/fr/order?process=v1');
     await page.getByLabel('Pro').check();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('radio', { name: 'Retrait en point relais' }).check();
@@ -155,7 +155,7 @@ test.describe('e-mails', () => {
   });
 
   test('e-mail invalide au paiement : erreur reliée au champ', async ({ page }) => {
-    await page.goto('/fr/order');
+    await page.goto('/fr/order?process=v1');
     await page.getByLabel('Essentiel').check();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('radio', { name: 'Retrait en point relais' }).check();

@@ -13,7 +13,8 @@ import {
   FTooltip,
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
-import { PICKUP_POINTS, deliveryFee, offerPrice } from '../../order/catalog';
+import { PICKUP_POINTS, offerPrice } from '../../order/catalog';
+import { deliveryFeeFor, orderTotal, stepsOf } from '../../order/process';
 import { draft, lastOrder, resetDraft } from '../../order/draft';
 import { addOrder } from '../../order/history';
 import { session } from '../../services/session';
@@ -40,8 +41,10 @@ type Failure =
 
 // Données de carte : état local uniquement, jamais dans le brouillon ni dans sessionStorage.
 const card = reactive<CardInput>({ number: '', expiry: '', cvc: '', name: '' });
-// Adresse de confirmation : pré-remplie si connecté.
-const email = ref(session.user.value?.email ?? '');
+// v1 : l'adresse de confirmation se saisit ici, pré-remplie si connecté.
+// À partir de la v2 (FOL-214), elle vient de l'étape « Coordonnées ».
+const askEmail = !stepsOf(draft.processVersion).includes('contact');
+const email = ref(askEmail ? (session.user.value?.email ?? '') : draft.email);
 const submitted = ref(false);
 const pending = ref(false);
 const failure = ref<Failure | null>(null);
@@ -53,7 +56,7 @@ type PaymentField = CardField | 'email';
 const FIELDS: PaymentField[] = ['email', 'number', 'expiry', 'cvc', 'name'];
 const errors = computed<Partial<Record<PaymentField, string>>>(() => {
   if (!submitted.value) return {};
-  const emailError = validateEmail(email.value);
+  const emailError = askEmail ? validateEmail(email.value) : undefined;
   return { ...(emailError ? { email: emailError } : {}), ...validateCard(card) };
 });
 const message = (field: PaymentField) => {
@@ -62,11 +65,10 @@ const message = (field: PaymentField) => {
 };
 
 const price = (cents: number) => formatPrice(cents, locale.value as Locale);
-const total = computed(
-  () =>
-    (draft.offer ? offerPrice(draft.offer) : 0) +
-    (draft.method ? deliveryFee(draft.method) : 0)
+const fee = computed(() =>
+  draft.method ? deliveryFeeFor(draft.processVersion, draft.method, draft.offer) : 0
 );
+const total = computed(() => orderTotal(draft));
 const amounts = computed(() => [
   {
     term: draft.offer ? t(`order.offers.${draft.offer}.name`) : '',
@@ -74,10 +76,7 @@ const amounts = computed(() => [
   },
   {
     term: draft.method ? t(`order.delivery.methods.${draft.method}.name`) : '',
-    details:
-      draft.method && deliveryFee(draft.method) > 0
-        ? price(deliveryFee(draft.method))
-        : t('order.free')
+    details: fee.value > 0 ? price(fee.value) : t('order.free')
   },
   { term: t('payment.total'), details: price(total.value) }
 ]);
@@ -118,7 +117,8 @@ async function complete(orderNumber: string) {
       placedAt: new Date().toISOString(),
       offer: draft.offer,
       total: total.value,
-      status: 'confirmed'
+      status: 'confirmed',
+      processVersion: draft.processVersion
     });
   }
   resetDraft();
@@ -225,6 +225,7 @@ const failureMessage = computed(() => {
 
     <form class="tb-order__form" novalidate @submit.prevent="onSubmit">
       <FFormField
+        v-if="askEmail"
         id="receiptEmail"
         :label="t('payment.email')"
         :hint="t('payment.emailHint')"

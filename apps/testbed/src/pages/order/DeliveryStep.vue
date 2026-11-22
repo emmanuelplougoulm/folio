@@ -14,6 +14,8 @@ import {
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
 import { COUNTRIES, DELIVERY_METHODS, PICKUP_POINTS } from '../../order/catalog';
+import { deliveryFeeFor, stepAfter } from '../../order/process';
+import type { DeliveryMethod } from '../../order/catalog';
 import { draft } from '../../order/draft';
 import { formatPrice } from '../../order/format';
 import { isEmpty, validateDelivery, type DeliveryField } from '../../order/validation';
@@ -49,8 +51,8 @@ const methods = computed(() =>
     description: t(`order.delivery.methods.${method.id}.description`)
   }))
 );
-const feeOf = (id: string) => {
-  const fee = DELIVERY_METHODS.find((m) => m.id === id)?.fee ?? 0;
+const feeOf = (id: DeliveryMethod) => {
+  const fee = deliveryFeeFor(draft.processVersion, id, draft.offer);
   return fee === 0 ? t('order.free') : formatPrice(fee, locale.value as Locale);
 };
 const countries = computed(() =>
@@ -68,7 +70,8 @@ async function onSubmit() {
   submitted.value = true;
   summary.value = toSummary(FIELDS, errors.value, t, { method: 'method-0' });
   if (!isEmpty(errors.value)) return;
-  await router.push({ name: 'order-review', params: { locale: locale.value } });
+  const next = stepAfter(draft.processVersion, 'delivery') ?? 'review';
+  await router.push({ name: `order-${next}`, params: { locale: locale.value } });
 }
 </script>
 

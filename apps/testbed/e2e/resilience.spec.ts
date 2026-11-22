@@ -50,7 +50,7 @@ test.describe('compte : fil d’Ariane, chargement et panne du service', () => {
 
 test.describe('point relais : combobox', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/fr/order');
+    await page.goto('/fr/order?process=v1');
     await page.getByLabel('Plus').check();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('radio', { name: 'Retrait en point relais' }).check();
@@ -99,7 +99,7 @@ test.describe('point relais : combobox', () => {
 test('paiement : l’info-bulle de sécurité s’ouvre au focus et se ferme avec Échap', async ({
   page
 }) => {
-  await page.goto('/fr/order');
+  await page.goto('/fr/order?process=v1');
   await page.getByLabel('Essentiel').check();
   await page.getByRole('button', { name: 'Continuer' }).click();
   await page.getByRole('radio', { name: 'Retrait en point relais' }).check();

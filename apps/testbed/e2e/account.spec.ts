@@ -130,7 +130,7 @@ test.describe('historique des commandes', () => {
 
   test('une commande passée connecté apparaît en tête, confirmée', async ({ page }) => {
     await signIn(page, ACCOUNTS.newcomer.email);
-    await page.goto('/fr/order');
+    await page.goto('/fr/order?process=v1');
     await page.getByLabel('Pro').check();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('radio', { name: 'Retrait en point relais' }).check();

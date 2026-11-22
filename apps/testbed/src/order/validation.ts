@@ -1,5 +1,8 @@
 import { POSTAL_CODE } from './catalog';
 import type { OrderDraft } from './draft';
+import { stepsOf } from './process';
+import type { OrderStep } from './steps';
+import { validateEmail } from '../forms/validators';
 
 /** Erreurs par champ : clés i18n, dans l'ordre d'affichage du formulaire. */
 export type FieldErrors<K extends string> = Partial<Record<K, string>>;
@@ -29,12 +32,35 @@ export function validateDelivery(d: OrderDraft): FieldErrors<DeliveryField> {
   return errors;
 }
 
+export type ContactField = 'email' | 'phone';
+
+/** Facultatif ; s'il est saisi : chiffres, espaces, points ou tirets, + initial, 9 à 15 chiffres. */
+const PHONE = /^\+?[\d\s.-]+$/;
+
+export function validateContact(d: OrderDraft): FieldErrors<ContactField> {
+  const errors: FieldErrors<ContactField> = {};
+  const email = validateEmail(d.email);
+  if (email) errors.email = email;
+  const phone = d.phone.trim();
+  const digits = phone.replace(/\D/g, '').length;
+  if (phone && (!PHONE.test(phone) || digits < 9 || digits > 15)) {
+    errors.phone = 'order.errors.phone';
+  }
+  return errors;
+}
+
 export const isEmpty = (errors: object): boolean => Object.keys(errors).length === 0;
 
-/** Index de la première étape incomplète (0 offre, 1 livraison, 2 récapitulatif, 3 paiement). */
-export function firstIncompleteStep(d: OrderDraft): number {
-  if (!isEmpty(validateOffer(d))) return 0;
-  if (!isEmpty(validateDelivery(d))) return 1;
-  if (!d.acceptedTerms || !d.reservation) return 2;
-  return 3;
+const complete: Record<OrderStep, (d: OrderDraft) => boolean> = {
+  offer: (d) => isEmpty(validateOffer(d)),
+  delivery: (d) => isEmpty(validateDelivery(d)),
+  contact: (d) => isEmpty(validateContact(d)),
+  review: (d) => d.acceptedTerms && d.reservation !== null,
+  payment: () => false
+};
+
+/** Première étape incomplète dans la version du brouillon : on ne peut pas aller au-delà. */
+export function firstIncompleteStep(d: OrderDraft): OrderStep {
+  const steps = stepsOf(d.processVersion);
+  return steps.find((step) => !complete[step](d)) ?? 'payment';
 }

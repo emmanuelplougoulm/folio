@@ -11,7 +11,8 @@ import {
   FVisuallyHidden,
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
-import { PICKUP_POINTS, deliveryFee, offerPrice } from '../../order/catalog';
+import { PICKUP_POINTS, offerPrice } from '../../order/catalog';
+import { deliveryFeeFor, stepBefore, stepsOf } from '../../order/process';
 import { draft } from '../../order/draft';
 import { formatPrice } from '../../order/format';
 import { reserveOrder } from '../../services/orders';
@@ -30,7 +31,11 @@ const termsError = computed(() =>
 );
 const price = (cents: number) => formatPrice(cents, locale.value as Locale);
 const offer = computed(() => (draft.offer ? offerPrice(draft.offer) : 0));
-const fee = computed(() => (draft.method ? deliveryFee(draft.method) : 0));
+const fee = computed(() =>
+  draft.method ? deliveryFeeFor(draft.processVersion, draft.method, draft.offer) : 0
+);
+const hasContact = computed(() => stepsOf(draft.processVersion).includes('contact'));
+const previous = computed(() => stepBefore(draft.processVersion, 'review') ?? 'delivery');
 const pickupLabel = computed(() => {
   const point = PICKUP_POINTS.find((p) => p.id === draft.pickupPoint);
   return point ? `${point.name}, ${point.address}` : '';
@@ -132,6 +137,18 @@ async function onSubmit() {
         </template>
       </FCard>
 
+      <FCard v-if="hasContact" :title="t('order.steps.contact')">
+        <template #headerAction>
+          <RouterLink :to="{ name: 'order-contact', params: { locale } }">
+            {{ t('order.review.edit')
+            }}<FVisuallyHidden> · {{ t('order.steps.contact') }}</FVisuallyHidden>
+          </RouterLink>
+        </template>
+        <p class="tb-order__contact">
+          {{ draft.email }}<template v-if="draft.phone"><br />{{ draft.phone }}</template>
+        </p>
+      </FCard>
+
       <p class="tb-order__nav tb-order__total">
         <span>{{ t('order.review.total') }}</span>
         <span class="tb-order__price">{{ price(offer + fee) }}</span>
@@ -148,7 +165,7 @@ async function onSubmit() {
       <div class="tb-order__nav">
         <FButton
           :as="RouterLink"
-          :to="{ name: 'order-delivery', params: { locale } }"
+          :to="{ name: `order-${previous}`, params: { locale } }"
           variant="ghost"
         >
           {{ t('order.back') }}
@@ -170,6 +187,11 @@ async function onSubmit() {
 <style>
 .tb-order__address {
   font-style: normal;
+}
+
+.tb-order__contact {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .tb-order__total {
