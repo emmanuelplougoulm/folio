@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { FAlert, FButton } from '@emmanuelplougoulm/folio';
 import { lastOrder } from '../../order/draft';
+import { session } from '../../services/session';
 
 const { t, locale } = useI18n();
 </script>
@@ -23,6 +24,13 @@ const { t, locale } = useI18n();
     </i18n-t>
   </FAlert>
   <p class="tb-actions">
+    <FButton
+      v-if="session.user.value"
+      :as="RouterLink"
+      :to="{ name: 'account', params: { locale } }"
+      variant="primary"
+      >{{ t('order.confirmation.orders') }}</FButton
+    >
     <FButton :as="RouterLink" :to="{ name: 'home', params: { locale } }">{{
       t('order.confirmation.home')
     }}</FButton>

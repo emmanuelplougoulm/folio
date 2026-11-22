@@ -14,6 +14,8 @@ import {
 } from '@emmanuelplougoulm/folio';
 import { deliveryFee, offerPrice } from '../../order/catalog';
 import { draft, lastOrder, resetDraft } from '../../order/draft';
+import { addOrder } from '../../order/history';
+import { session } from '../../services/session';
 import { formatPrice } from '../../order/format';
 import { CHALLENGE_CODE, TEST_CARDS } from '../../mocks/cards';
 import {
@@ -81,6 +83,16 @@ const testCards = computed(() => [
 
 async function complete(orderNumber: string) {
   lastOrder.value = { number: orderNumber };
+  if (draft.offer) {
+    addOrder({
+      number: orderNumber,
+      email: session.user.value?.email ?? null,
+      placedAt: new Date().toISOString(),
+      offer: draft.offer,
+      total: total.value,
+      status: 'confirmed'
+    });
+  }
   resetDraft();
   await router.push({ name: 'order-confirmation', params: { locale: locale.value } });
 }

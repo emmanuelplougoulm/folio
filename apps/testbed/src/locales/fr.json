@@ -41,7 +41,22 @@
   "account": {
     "title": "Mon compte",
     "welcome": "Bonjour {name}, vous êtes connecté avec {email}.",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "orders": {
+      "title": "Mes commandes",
+      "number": "Commande {number}",
+      "date": "Date",
+      "offer": "Offre",
+      "total": "Total",
+      "emptyTitle": "Passez votre première commande",
+      "emptyBody": "Vos commandes et leur suivi apparaîtront ici."
+    },
+    "status": {
+      "confirmed": "Confirmée",
+      "preparing": "En préparation",
+      "delivered": "Livrée",
+      "cancelled": "Annulée"
+    }
   },
   "validation": {
     "email": {
@@ -138,7 +153,8 @@
       "title": "Commande confirmée",
       "alertTitle": "Merci pour votre commande",
       "body": "Votre numéro de commande est {number}.",
-      "home": "Revenir à l'accueil"
+      "home": "Revenir à l'accueil",
+      "orders": "Voir mes commandes"
     },
     "errors": {
       "offer": "Choisissez une offre.",
@@ -212,6 +228,20 @@
         "format": "Le cryptogramme comporte 3 ou 4 chiffres."
       },
       "name": "Saisissez le nom du titulaire, tel qu'il figure sur la carte."
+    }
+  },
+  "notifications": {
+    "label": "Notification",
+    "region": "Notifications ({hotkey})",
+    "close": "Fermer la notification"
+  },
+  "toasts": {
+    "signedIn": {
+      "title": "Vous êtes connecté",
+      "description": "Bienvenue, {name}."
+    },
+    "signedOut": {
+      "title": "Vous êtes déconnecté"
     }
   }
 }

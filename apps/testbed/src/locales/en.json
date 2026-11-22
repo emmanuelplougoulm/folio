@@ -41,7 +41,22 @@
   "account": {
     "title": "My account",
     "welcome": "Hello {name}, you're signed in as {email}.",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "orders": {
+      "title": "My orders",
+      "number": "Order {number}",
+      "date": "Date",
+      "offer": "Plan",
+      "total": "Total",
+      "emptyTitle": "Place your first order",
+      "emptyBody": "Your orders and their tracking will appear here."
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "preparing": "Being prepared",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    }
   },
   "validation": {
     "email": {
@@ -138,7 +153,8 @@
       "title": "Order confirmed",
       "alertTitle": "Thank you for your order",
       "body": "Your order number is {number}.",
-      "home": "Back to home"
+      "home": "Back to home",
+      "orders": "View my orders"
     },
     "errors": {
       "offer": "Choose a plan.",
@@ -212,6 +228,20 @@
         "format": "The security code is 3 or 4 digits."
       },
       "name": "Enter the name as it appears on the card."
+    }
+  },
+  "notifications": {
+    "label": "Notification",
+    "region": "Notifications ({hotkey})",
+    "close": "Close notification"
+  },
+  "toasts": {
+    "signedIn": {
+      "title": "You're signed in",
+      "description": "Welcome, {name}."
+    },
+    "signedOut": {
+      "title": "You're signed out"
     }
   }
 }

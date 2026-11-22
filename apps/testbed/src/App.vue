@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { FSkipLink } from '@emmanuelplougoulm/folio';
+import { FSkipLink, FToastProvider } from '@emmanuelplougoulm/folio';
 import { LOCALES, type Locale } from './i18n';
 import { session } from './services/session';
 
@@ -23,49 +23,55 @@ const localeLinks = computed(() =>
 </script>
 
 <template>
-  <FSkipLink>{{ t('app.skipToContent') }}</FSkipLink>
-  <header class="tb-header">
-    <RouterLink class="tb-header__brand" :to="{ name: 'home', params: { locale } }">
-      {{ t('app.name') }}
-    </RouterLink>
-    <nav :aria-label="t('app.mainNav')" class="tb-header__nav">
-      <RouterLink
-        class="tb-header__link"
-        :to="{ name: 'order-offer', params: { locale } }"
-        >{{ t('nav.order') }}</RouterLink
-      >
-      <RouterLink
-        v-if="session.user.value"
-        class="tb-header__link"
-        :to="{ name: 'account', params: { locale } }"
-        >{{ t('nav.account') }}</RouterLink
-      >
-      <RouterLink
-        v-else
-        class="tb-header__link"
-        :to="{ name: 'login', params: { locale } }"
-        >{{ t('nav.signIn') }}</RouterLink
-      >
-    </nav>
-    <nav :aria-label="t('locale.label')">
-      <ul class="tb-header__locales">
-        <li v-for="link in localeLinks" :key="link.code">
-          <RouterLink
-            :to="link.to"
-            :lang="link.code"
-            :hreflang="link.code"
-            :aria-current="link.code === locale ? 'true' : undefined"
-            class="tb-header__locale"
-          >
-            {{ t(`locale.${link.code}`) }}
-          </RouterLink>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <main id="main" class="tb-main" tabindex="-1">
-    <RouterView />
-  </main>
+  <FToastProvider
+    :label="t('notifications.label')"
+    :region-label="t('notifications.region')"
+    :close-label="t('notifications.close')"
+  >
+    <FSkipLink>{{ t('app.skipToContent') }}</FSkipLink>
+    <header class="tb-header">
+      <RouterLink class="tb-header__brand" :to="{ name: 'home', params: { locale } }">
+        {{ t('app.name') }}
+      </RouterLink>
+      <nav :aria-label="t('app.mainNav')" class="tb-header__nav">
+        <RouterLink
+          class="tb-header__link"
+          :to="{ name: 'order-offer', params: { locale } }"
+          >{{ t('nav.order') }}</RouterLink
+        >
+        <RouterLink
+          v-if="session.user.value"
+          class="tb-header__link"
+          :to="{ name: 'account', params: { locale } }"
+          >{{ t('nav.account') }}</RouterLink
+        >
+        <RouterLink
+          v-else
+          class="tb-header__link"
+          :to="{ name: 'login', params: { locale } }"
+          >{{ t('nav.signIn') }}</RouterLink
+        >
+      </nav>
+      <nav :aria-label="t('locale.label')">
+        <ul class="tb-header__locales">
+          <li v-for="link in localeLinks" :key="link.code">
+            <RouterLink
+              :to="link.to"
+              :lang="link.code"
+              :hreflang="link.code"
+              :aria-current="link.code === locale ? 'true' : undefined"
+              class="tb-header__locale"
+            >
+              {{ t(`locale.${link.code}`) }}
+            </RouterLink>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" class="tb-main" tabindex="-1">
+      <RouterView />
+    </main>
+  </FToastProvider>
 </template>
 
 <style>

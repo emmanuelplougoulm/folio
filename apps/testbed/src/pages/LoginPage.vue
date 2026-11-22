@@ -9,6 +9,7 @@ import {
   FFormField,
   FPasswordInput,
   FTextInput,
+  useToast,
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
 import { signIn } from '../services/auth';
@@ -19,6 +20,7 @@ import { ACCOUNTS, DEMO_PASSWORD } from '../mocks/accounts';
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
 
 const form = reactive({ email: '', password: '' });
 const submitted = ref(false);
@@ -53,6 +55,11 @@ async function onSubmit() {
       return;
     }
     session.start(result.user);
+    toast.show({
+      title: t('toasts.signedIn.title'),
+      description: t('toasts.signedIn.description', { name: result.user.name }),
+      tone: 'success'
+    });
     const redirect = route.query['redirect'];
     await router.push(
       typeof redirect === 'string' && redirect.startsWith('/')

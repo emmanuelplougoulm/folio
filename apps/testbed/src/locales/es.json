@@ -41,7 +41,22 @@
   "account": {
     "title": "Mi cuenta",
     "welcome": "Hola, {name}. Has iniciado sesión con {email}.",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "orders": {
+      "title": "Mis pedidos",
+      "number": "Pedido {number}",
+      "date": "Fecha",
+      "offer": "Oferta",
+      "total": "Total",
+      "emptyTitle": "Haz tu primer pedido",
+      "emptyBody": "Tus pedidos y su seguimiento aparecerán aquí."
+    },
+    "status": {
+      "confirmed": "Confirmado",
+      "preparing": "En preparación",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    }
   },
   "validation": {
     "email": {
@@ -138,7 +153,8 @@
       "title": "Pedido confirmado",
       "alertTitle": "Gracias por tu pedido",
       "body": "Tu número de pedido es {number}.",
-      "home": "Volver al inicio"
+      "home": "Volver al inicio",
+      "orders": "Ver mis pedidos"
     },
     "errors": {
       "offer": "Elige una oferta.",
@@ -212,6 +228,20 @@
         "format": "El código de seguridad tiene 3 o 4 dígitos."
       },
       "name": "Introduce el nombre tal y como aparece en la tarjeta."
+    }
+  },
+  "notifications": {
+    "label": "Notificación",
+    "region": "Notificaciones ({hotkey})",
+    "close": "Cerrar la notificación"
+  },
+  "toasts": {
+    "signedIn": {
+      "title": "Has iniciado sesión",
+      "description": "Te damos la bienvenida, {name}."
+    },
+    "signedOut": {
+      "title": "Has cerrado sesión"
     }
   }
 }
