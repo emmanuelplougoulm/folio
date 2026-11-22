@@ -1,0 +1,60 @@
+{
+  "name": "@emmanuelplougoulm/folio",
+  "version": "0.0.0",
+  "description": "Design system Vue 3 sobre et éditorial, accessible par défaut.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/folio.css"
+  },
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:stories": "vitest run --project stories",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.60.1",
+    "@storybook/addon-a11y": "^10.6",
+    "@storybook/addon-docs": "^10.6",
+    "@storybook/addon-vitest": "^10.6",
+    "@storybook/vue3-vite": "^10.6",
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/user-event": "^14",
+    "@testing-library/vue": "^8",
+    "@types/node": "^22",
+    "@vitejs/plugin-vue": "^6",
+    "@vitest/browser": "^5",
+    "@vitest/browser-playwright": "^5",
+    "happy-dom": "^21",
+    "playwright": "^1.65",
+    "react": "^19",
+    "react-dom": "^19",
+    "storybook": "^10.6",
+    "typescript": "~6.0.3",
+    "vite": "^8",
+    "vite-plugin-dts": "^5",
+    "vitest": "^5",
+    "vue": "^3.5",
+    "vue-tsc": "^3"
+  }
+}
