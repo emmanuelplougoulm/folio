@@ -9,7 +9,9 @@ export default defineConfig({
     dts({
       tsconfigPath: './tsconfig.json',
       include: ['src'],
-      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts']
+      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts'],
+      // Un seul index.d.ts : résolu par tous les modes de TypeScript (bundler, node16).
+      bundleTypes: true
     })
   ],
   build: {
