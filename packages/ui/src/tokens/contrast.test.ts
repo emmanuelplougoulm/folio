@@ -16,6 +16,8 @@ const pairs: [foreground: string, background: string, min: number][] = [
   ['ColorText', 'ColorAccentSubtle', TEXT],
   ['ColorTextMuted', 'ColorBg', TEXT],
   ['ColorTextMuted', 'ColorSurface', TEXT],
+  ['ColorTextMuted', 'ColorSurfaceSunken', TEXT],
+  ['ColorAccent', 'ColorSurfaceSunken', TEXT],
   ['ColorBorder', 'ColorBg', UI],
   ['ColorBorder', 'ColorSurface', UI],
   ['ColorFocus', 'ColorBg', UI],
