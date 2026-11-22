@@ -66,28 +66,64 @@ test.describe('notifications', () => {
 });
 
 test.describe('historique des commandes', () => {
-  test('compte de démonstration : commandes passées avec leur statut', async ({
+  const ordersTable = (page: Page) => page.getByRole('table', { name: 'Mes commandes' });
+
+  test('compte de démonstration : tableau paginé, statuts en badge', async ({ page }) => {
+    await signIn(page, ACCOUNTS.demo.email);
+    const table = ordersTable(page);
+    await expect(table.getByRole('row')).toHaveCount(6);
+    const latest = table
+      .getByRole('row')
+      .filter({ has: page.getByRole('rowheader', { name: 'FO-482913' }) });
+    await expect(latest).toContainText('3 oct. 2026');
+    await expect(latest).toContainText('Livrée');
+    await expect(latest).toContainText('24,80 €');
+    await expect(table.getByRole('row').filter({ hasText: 'FO-481542' })).toContainText(
+      'Annulée'
+    );
+
+    const pagination = page.getByRole('navigation', { name: 'Pagination des commandes' });
+    await expect(pagination.getByRole('button', { name: 'Page 1' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    await expect(pagination.getByRole('button', { name: 'Précédente' })).toBeDisabled();
+  });
+
+  test('changer de page : URL, focus sur le tableau, dernière page partielle', async ({
     page
   }) => {
     await signIn(page, ACCOUNTS.demo.email);
-    const orders = page.getByRole('region', { name: 'Mes commandes' });
-    const delivered = orders.getByRole('article', { name: 'Commande FO-482913' });
-    await expect(delivered).toContainText('Livrée');
-    await expect(delivered).toContainText('3 octobre 2026');
-    await expect(delivered).toContainText('24,80 €');
-    await expect(
-      orders.getByRole('article', { name: 'Commande FO-317204' })
-    ).toContainText('Annulée');
+    const pagination = page.getByRole('navigation', { name: 'Pagination des commandes' });
+    await pagination.getByRole('button', { name: 'Page 2' }).click();
+    await expect(page).toHaveURL(/[?&]page=2/);
+    await expect(page.getByRole('region', { name: 'Mes commandes' })).toBeFocused();
+    await expect(ordersTable(page).getByRole('rowheader').first()).toHaveText(
+      'FO-476058'
+    );
+
+    await pagination.getByRole('button', { name: 'Suivante' }).click();
+    await expect(ordersTable(page).getByRole('row')).toHaveCount(3);
+    await expect(pagination.getByRole('button', { name: 'Suivante' })).toBeDisabled();
+
+    // L'URL suffit à retrouver la page (lien partagé, rechargement).
+    await page.reload();
+    await expect(pagination.getByRole('button', { name: 'Page 3' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
   });
 
   test('nouveau compte : état vide avec invitation à commander', async ({ page }) => {
     await signIn(page, ACCOUNTS.newcomer.email);
-    const orders = page.getByRole('region', { name: 'Mes commandes' });
     await expect(
-      orders.getByRole('heading', { name: 'Passez votre première commande' })
+      page.getByRole('heading', { name: 'Passez votre première commande' })
     ).toBeVisible();
-    await expect(orders.getByRole('article')).toHaveCount(0);
-    await orders.getByRole('link', { name: 'Commencer une commande' }).click();
+    await expect(page.getByRole('table')).toHaveCount(0);
+    await page
+      .getByRole('tabpanel')
+      .getByRole('link', { name: 'Commencer une commande' })
+      .click();
     await expect(page).toHaveURL('/fr/order/offer');
   });
 
@@ -112,26 +148,82 @@ test.describe('historique des commandes', () => {
       (await page.getByRole('status').locator('.tb-code').textContent()) ?? '';
     await page.getByRole('link', { name: 'Voir mes commandes' }).click();
 
-    const first = page
-      .getByRole('region', { name: 'Mes commandes' })
-      .getByRole('article')
-      .first();
-    await expect(first).toHaveAccessibleName(`Commande ${number}`);
+    const first = ordersTable(page).getByRole('row').nth(1);
+    await expect(first.getByRole('rowheader')).toHaveText(number);
     await expect(first).toContainText('Confirmée');
     await expect(first).toContainText('39,90 €');
+  });
+});
+
+test.describe('onglets et préférences', () => {
+  test('onglets au clavier, onglet dans l’URL', async ({ page }) => {
+    await signIn(page, ACCOUNTS.demo.email);
+    const tabs = page.getByRole('tablist', { name: 'Sections du compte' });
+    await tabs.getByRole('tab', { name: 'Commandes' }).focus();
+    await page.keyboard.press('ArrowRight');
+    const preferences = tabs.getByRole('tab', { name: 'Préférences' });
+    await expect(preferences).toBeFocused();
+    await expect(preferences).toHaveAttribute('aria-selected', 'true');
+    await expect(page).toHaveURL(/[?&]tab=preferences/);
+    await expect(page.getByRole('tabpanel', { name: 'Préférences' })).toBeVisible();
+
+    await page.reload();
+    await expect(page.getByRole('tab', { name: 'Préférences' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+  });
+
+  test('interrupteurs, enregistrement et notification, conservés au rechargement', async ({
+    page
+  }) => {
+    await signIn(page, ACCOUNTS.demo.email);
+    await page.getByRole('tab', { name: 'Préférences' }).click();
+    const group = page.getByRole('group', { name: 'Notifications par e-mail' });
+    const tracking = group.getByRole('switch', { name: 'Suivi de commande' });
+    const newsletter = group.getByRole('switch', { name: "Lettre d'information" });
+    await expect(tracking).toBeChecked();
+    await expect(newsletter).not.toBeChecked();
+    await expect(newsletter).toHaveAccessibleDescription(
+      'Les nouveautés du mois, une fois par mois.'
+    );
+
+    await newsletter.press('Space');
+    await tracking.click();
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect(
+      notifications(page).getByText('Vos préférences sont enregistrées')
+    ).toBeVisible();
+
+    await page.reload();
+    await page.getByRole('tab', { name: 'Préférences' }).click();
+    await expect(
+      page.getByRole('switch', { name: 'Suivi de commande' })
+    ).not.toBeChecked();
+    await expect(
+      page.getByRole('switch', { name: "Lettre d'information" })
+    ).toBeChecked();
   });
 });
 
 test.describe('accessibilité du compte (axe, WCAG 2.2 AA)', () => {
   for (const colorScheme of ['light', 'dark'] as const) {
     for (const [label, email] of [
-      ['historique', ACCOUNTS.demo.email],
+      ['tableau des commandes', ACCOUNTS.demo.email],
       ['état vide', ACCOUNTS.newcomer.email]
     ] as const) {
       test(`${label}, notification visible, thème ${colorScheme}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme });
         await signIn(page, email);
         await expect(notifications(page).getByText('Vous êtes connecté')).toBeVisible();
+        expect(
+          (
+            await new AxeBuilder({ page })
+              .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+              .analyze()
+          ).violations
+        ).toEqual([]);
+        await page.getByRole('tab', { name: 'Préférences' }).click();
         const results = await new AxeBuilder({ page })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
           .analyze();
