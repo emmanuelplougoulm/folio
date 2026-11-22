@@ -28,7 +28,12 @@ const localeLinks = computed(() =>
     <RouterLink class="tb-header__brand" :to="{ name: 'home', params: { locale } }">
       {{ t('app.name') }}
     </RouterLink>
-    <nav :aria-label="t('app.mainNav')">
+    <nav :aria-label="t('app.mainNav')" class="tb-header__nav">
+      <RouterLink
+        class="tb-header__link"
+        :to="{ name: 'order-offer', params: { locale } }"
+        >{{ t('nav.order') }}</RouterLink
+      >
       <RouterLink
         v-if="session.user.value"
         class="tb-header__link"
@@ -80,6 +85,11 @@ const localeLinks = computed(() =>
   font-weight: var(--f-font-weight-medium);
   color: var(--f-color-text);
   text-decoration: none;
+}
+
+.tb-header__nav {
+  display: flex;
+  gap: var(--f-space-4);
 }
 
 .tb-header__link,

@@ -29,5 +29,8 @@ const { t, locale } = useI18n();
     >
       {{ t('home.cta') }}
     </FButton>
+    <FButton :as="RouterLink" :to="{ name: 'order-offer', params: { locale } }" size="lg">
+      {{ t('home.ctaOrder') }}
+    </FButton>
   </p>
 </template>

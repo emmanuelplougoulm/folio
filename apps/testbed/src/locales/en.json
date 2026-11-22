@@ -12,13 +12,15 @@
   },
   "nav": {
     "signIn": "Sign in",
-    "account": "My account"
+    "account": "My account",
+    "order": "Order"
   },
   "home": {
     "title": "A demo journey, tested end to end",
     "intro": "This application is a practice ground: forms, multi-step journeys, mock payment, three languages and error states.",
     "cta": "Sign in",
-    "ctaAccount": "Go to my account"
+    "ctaAccount": "Go to my account",
+    "ctaOrder": "Start an order"
   },
   "login": {
     "title": "Sign in",
@@ -54,5 +56,104 @@
     "title": "Page not found",
     "body": "The page you requested doesn't exist or has moved.",
     "back": "Back to home"
+  },
+  "order": {
+    "stepsLabel": "Order steps",
+    "steps": {
+      "offer": "Plan",
+      "delivery": "Delivery",
+      "review": "Review"
+    },
+    "stepStatus": {
+      "complete": "Completed",
+      "current": "Current",
+      "upcoming": "Not started"
+    },
+    "errorSummary": "There is {n} problem with this form | There are {n} problems with this form",
+    "continue": "Continue",
+    "back": "Back",
+    "free": "Free",
+    "perMonth": "{price} per month",
+    "offers": {
+      "essential": {
+        "name": "Essential",
+        "description": "One box a month"
+      },
+      "plus": {
+        "name": "Plus",
+        "description": "Two boxes a month"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "One box a week and priority delivery"
+      }
+    },
+    "offer": {
+      "title": "Choose your plan",
+      "legend": "Plan"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "legend": "Delivery method",
+      "methods": {
+        "home": {
+          "name": "Home delivery",
+          "description": "Within 3 to 5 working days"
+        },
+        "relay": {
+          "name": "Pickup point",
+          "description": "Ready within 48 hours"
+        }
+      },
+      "fullName": "Full name",
+      "address": "Address",
+      "postalCode": "Postcode",
+      "city": "Town or city",
+      "country": "Country",
+      "countryPlaceholder": "Choose a country",
+      "instructions": "Delivery instructions (optional)",
+      "instructionsHint": "Door code, floor, opening hours…",
+      "instructionsCounter": "You have {count} character remaining | You have {count} characters remaining",
+      "pickupPoint": "Pickup point",
+      "pickupPointPlaceholder": "Choose a pickup point"
+    },
+    "countries": {
+      "FR": "France",
+      "BE": "Belgium",
+      "ES": "Spain"
+    },
+    "review": {
+      "title": "Check your order",
+      "edit": "Change",
+      "total": "First month total",
+      "terms": "I accept the terms and conditions of sale",
+      "submit": "Confirm order",
+      "submitting": "Confirming your order",
+      "failedTitle": "Couldn't place your order",
+      "pickupUnavailable": "This pickup point no longer accepts parcels. Choose another point or home delivery.",
+      "changeDelivery": "Change delivery"
+    },
+    "confirmation": {
+      "title": "Order confirmed",
+      "alertTitle": "Thank you for your order",
+      "body": "Your order number is {number}.",
+      "home": "Back to home"
+    },
+    "errors": {
+      "offer": "Choose a plan.",
+      "method": "Choose a delivery method.",
+      "fullName": "Enter your full name.",
+      "address": "Enter your address.",
+      "postalCode": {
+        "required": "Enter your postcode.",
+        "FR": "Enter a 5-digit French postcode.",
+        "BE": "Enter a 4-digit Belgian postcode.",
+        "ES": "Enter a 5-digit Spanish postcode."
+      },
+      "city": "Enter your town or city.",
+      "country": "Choose a country.",
+      "pickupPoint": "Choose a pickup point.",
+      "terms": "Accept the terms and conditions of sale to confirm your order."
+    }
   }
 }

@@ -1,12 +1,18 @@
+import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { detectLocale, i18n, isLocale } from './i18n';
 import { session } from './services/session';
+import { draft, lastOrder } from './order/draft';
+import { ORDER_STEPS } from './order/steps';
+import { firstIncompleteStep } from './order/validation';
 
 declare module 'vue-router' {
   interface RouteMeta {
     /** Clé i18n du titre de la page (WCAG 2.4.2). */
     titleKey?: string;
     requiresAuth?: boolean;
+    /** Index de l'étape dans le tunnel de commande. */
+    step?: number;
   }
 }
 
@@ -36,6 +42,29 @@ export const router = createRouter({
           meta: { titleKey: 'account.title', requiresAuth: true }
         },
         {
+          path: 'order',
+          component: () => import('./pages/order/OrderLayout.vue'),
+          children: [
+            { path: '', redirect: { name: 'order-offer' } },
+            ...ORDER_STEPS.map((id, step) => ({
+              path: id,
+              name: `order-${id}`,
+              component: {
+                offer: () => import('./pages/order/OfferStep.vue'),
+                delivery: () => import('./pages/order/DeliveryStep.vue'),
+                review: () => import('./pages/order/ReviewStep.vue')
+              }[id],
+              meta: { titleKey: `order.steps.${id}`, step }
+            }))
+          ]
+        },
+        {
+          path: 'order/confirmation',
+          name: 'order-confirmation',
+          component: () => import('./pages/order/ConfirmationPage.vue'),
+          meta: { titleKey: 'order.confirmation.title' }
+        },
+        {
           path: ':pathMatch(.*)*',
           name: 'not-found',
           component: () => import('./pages/NotFoundPage.vue'),
@@ -61,11 +90,32 @@ router.beforeEach((to) => {
       query: { redirect: to.fullPath }
     };
   }
+  // Tunnel : impossible de sauter une étape incomplète (lien direct, rechargement).
+  if (to.meta.step !== undefined) {
+    const allowed = firstIncompleteStep(draft);
+    const target = ORDER_STEPS[allowed];
+    if (to.meta.step > allowed && target) {
+      return { name: `order-${target}`, params: to.params };
+    }
+  }
+  if (to.name === 'order-confirmation' && !lastOrder.value) {
+    return { name: 'home', params: to.params };
+  }
   return true;
 });
 
-router.afterEach((to) => {
+router.afterEach(async (to, from) => {
   const { t } = i18n.global;
   const page = to.meta.titleKey ? t(to.meta.titleKey) : '';
   document.title = page ? `${page} · ${t('app.name')}` : t('app.name');
+
+  // Navigation dans l'app (pas le premier chargement) : focus sur le titre de la nouvelle
+  // page, pour que le lecteur d'écran l'annonce et que le Tab reparte du haut du contenu.
+  if (from.matched.length === 0 || to.path === from.path) return;
+  await nextTick();
+  const heading = document.querySelector<HTMLElement>('#main h1');
+  if (heading) {
+    heading.tabIndex = -1;
+    heading.focus({ preventScroll: false });
+  }
 });

@@ -12,13 +12,15 @@
   },
   "nav": {
     "signIn": "Iniciar sesión",
-    "account": "Mi cuenta"
+    "account": "Mi cuenta",
+    "order": "Hacer un pedido"
   },
   "home": {
     "title": "Un recorrido de demostración, probado de principio a fin",
     "intro": "Esta aplicación es un campo de práctica: formularios, recorridos de varios pasos, pago simulado, tres idiomas y estados de error.",
     "cta": "Iniciar sesión",
-    "ctaAccount": "Ir a mi cuenta"
+    "ctaAccount": "Ir a mi cuenta",
+    "ctaOrder": "Empezar un pedido"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -54,5 +56,104 @@
     "title": "Página no encontrada",
     "body": "La dirección solicitada no existe o se ha movido.",
     "back": "Volver al inicio"
+  },
+  "order": {
+    "stepsLabel": "Pasos del pedido",
+    "steps": {
+      "offer": "Oferta",
+      "delivery": "Entrega",
+      "review": "Resumen"
+    },
+    "stepStatus": {
+      "complete": "Completado",
+      "current": "En curso",
+      "upcoming": "Pendiente"
+    },
+    "errorSummary": "El formulario contiene {n} error | El formulario contiene {n} errores",
+    "continue": "Continuar",
+    "back": "Volver",
+    "free": "Gratis",
+    "perMonth": "{price} al mes",
+    "offers": {
+      "essential": {
+        "name": "Esencial",
+        "description": "Una cesta al mes"
+      },
+      "plus": {
+        "name": "Plus",
+        "description": "Dos cestas al mes"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Una cesta a la semana y entrega prioritaria"
+      }
+    },
+    "offer": {
+      "title": "Elige tu oferta",
+      "legend": "Oferta"
+    },
+    "delivery": {
+      "title": "Entrega",
+      "legend": "Modo de entrega",
+      "methods": {
+        "home": {
+          "name": "Entrega a domicilio",
+          "description": "En un plazo de 3 a 5 días laborables"
+        },
+        "relay": {
+          "name": "Recogida en punto de entrega",
+          "description": "Disponible en 48 horas"
+        }
+      },
+      "fullName": "Nombre completo",
+      "address": "Dirección",
+      "postalCode": "Código postal",
+      "city": "Ciudad",
+      "country": "País",
+      "countryPlaceholder": "Elige un país",
+      "instructions": "Instrucciones de entrega (opcional)",
+      "instructionsHint": "Código de acceso, piso, horario…",
+      "instructionsCounter": "Queda {count} carácter | Quedan {count} caracteres",
+      "pickupPoint": "Punto de recogida",
+      "pickupPointPlaceholder": "Elige un punto de recogida"
+    },
+    "countries": {
+      "FR": "Francia",
+      "BE": "Bélgica",
+      "ES": "España"
+    },
+    "review": {
+      "title": "Revisa tu pedido",
+      "edit": "Modificar",
+      "total": "Total del primer mes",
+      "terms": "Acepto las condiciones generales de venta",
+      "submit": "Confirmar el pedido",
+      "submitting": "Confirmando el pedido",
+      "failedTitle": "No se ha podido realizar el pedido",
+      "pickupUnavailable": "Este punto de recogida ya no acepta paquetes. Elige otro punto o la entrega a domicilio.",
+      "changeDelivery": "Modificar la entrega"
+    },
+    "confirmation": {
+      "title": "Pedido confirmado",
+      "alertTitle": "Gracias por tu pedido",
+      "body": "Tu número de pedido es {number}.",
+      "home": "Volver al inicio"
+    },
+    "errors": {
+      "offer": "Elige una oferta.",
+      "method": "Elige un modo de entrega.",
+      "fullName": "Introduce tu nombre completo.",
+      "address": "Introduce tu dirección.",
+      "postalCode": {
+        "required": "Introduce tu código postal.",
+        "FR": "Introduce un código postal francés de 5 cifras.",
+        "BE": "Introduce un código postal belga de 4 cifras.",
+        "ES": "Introduce un código postal español de 5 cifras."
+      },
+      "city": "Introduce tu ciudad.",
+      "country": "Elige un país.",
+      "pickupPoint": "Elige un punto de recogida.",
+      "terms": "Acepta las condiciones generales de venta para confirmar el pedido."
+    }
   }
 }

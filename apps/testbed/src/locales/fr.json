@@ -12,13 +12,15 @@
   },
   "nav": {
     "signIn": "Se connecter",
-    "account": "Mon compte"
+    "account": "Mon compte",
+    "order": "Commander"
   },
   "home": {
     "title": "Un parcours de démonstration, testé de bout en bout",
     "intro": "Cette application sert de terrain d'exercice : formulaires, parcours en plusieurs étapes, paiement fictif, trois langues et états d'erreur.",
     "cta": "Se connecter",
-    "ctaAccount": "Accéder à mon compte"
+    "ctaAccount": "Accéder à mon compte",
+    "ctaOrder": "Commencer une commande"
   },
   "login": {
     "title": "Connexion",
@@ -54,5 +56,104 @@
     "title": "Page introuvable",
     "body": "L'adresse demandée n'existe pas ou a été déplacée.",
     "back": "Revenir à l'accueil"
+  },
+  "order": {
+    "stepsLabel": "Étapes de la commande",
+    "steps": {
+      "offer": "Offre",
+      "delivery": "Livraison",
+      "review": "Récapitulatif"
+    },
+    "stepStatus": {
+      "complete": "Terminée",
+      "current": "En cours",
+      "upcoming": "À venir"
+    },
+    "errorSummary": "Le formulaire contient {n} erreur | Le formulaire contient {n} erreurs",
+    "continue": "Continuer",
+    "back": "Retour",
+    "free": "Gratuit",
+    "perMonth": "{price} par mois",
+    "offers": {
+      "essential": {
+        "name": "Essentiel",
+        "description": "Un panier par mois"
+      },
+      "plus": {
+        "name": "Plus",
+        "description": "Deux paniers par mois"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Un panier par semaine et la livraison prioritaire"
+      }
+    },
+    "offer": {
+      "title": "Choisissez votre offre",
+      "legend": "Offre"
+    },
+    "delivery": {
+      "title": "Livraison",
+      "legend": "Mode de livraison",
+      "methods": {
+        "home": {
+          "name": "Livraison à domicile",
+          "description": "Sous 3 à 5 jours ouvrés"
+        },
+        "relay": {
+          "name": "Retrait en point relais",
+          "description": "Disponible sous 48 heures"
+        }
+      },
+      "fullName": "Nom complet",
+      "address": "Adresse",
+      "postalCode": "Code postal",
+      "city": "Ville",
+      "country": "Pays",
+      "countryPlaceholder": "Choisissez un pays",
+      "instructions": "Instructions de livraison (facultatif)",
+      "instructionsHint": "Digicode, étage, horaires…",
+      "instructionsCounter": "Il reste {count} caractère | Il reste {count} caractères",
+      "pickupPoint": "Point relais",
+      "pickupPointPlaceholder": "Choisissez un point relais"
+    },
+    "countries": {
+      "FR": "France",
+      "BE": "Belgique",
+      "ES": "Espagne"
+    },
+    "review": {
+      "title": "Vérifiez votre commande",
+      "edit": "Modifier",
+      "total": "Total du premier mois",
+      "terms": "J'accepte les conditions générales de vente",
+      "submit": "Confirmer la commande",
+      "submitting": "Confirmation en cours",
+      "failedTitle": "Commande impossible",
+      "pickupUnavailable": "Ce point relais n'accepte plus de colis. Choisissez un autre point ou la livraison à domicile.",
+      "changeDelivery": "Modifier la livraison"
+    },
+    "confirmation": {
+      "title": "Commande confirmée",
+      "alertTitle": "Merci pour votre commande",
+      "body": "Votre numéro de commande est {number}.",
+      "home": "Revenir à l'accueil"
+    },
+    "errors": {
+      "offer": "Choisissez une offre.",
+      "method": "Choisissez un mode de livraison.",
+      "fullName": "Saisissez votre nom complet.",
+      "address": "Saisissez votre adresse.",
+      "postalCode": {
+        "required": "Saisissez votre code postal.",
+        "FR": "Saisissez un code postal français à 5 chiffres.",
+        "BE": "Saisissez un code postal belge à 4 chiffres.",
+        "ES": "Saisissez un code postal espagnol à 5 chiffres."
+      },
+      "city": "Saisissez votre ville.",
+      "country": "Choisissez un pays.",
+      "pickupPoint": "Choisissez un point relais.",
+      "terms": "Acceptez les conditions générales de vente pour confirmer la commande."
+    }
   }
 }

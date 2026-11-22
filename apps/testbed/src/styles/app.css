@@ -14,6 +14,9 @@
 }
 
 .tb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--f-space-3);
   margin-block: var(--f-space-8) 0;
 }
 
@@ -21,4 +24,9 @@
   font-family: var(--f-font-family-mono);
   font-size: 0.9em;
   white-space: nowrap;
+}
+
+/* Bloc séparé du précédent (alerte, récapitulatif d'erreurs) : partagé par toutes les pages. */
+.tb-order__block {
+  margin-block-start: var(--f-space-6);
 }
