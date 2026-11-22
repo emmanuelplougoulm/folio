@@ -3,3 +3,5 @@ dist
 storybook-static
 coverage
 *.generated.*
+test-results
+playwright-report
