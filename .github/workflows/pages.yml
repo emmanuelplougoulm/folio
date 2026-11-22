@@ -30,11 +30,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Génération des tokens
-        run: pnpm tokens
-
-      - name: Build du banc d'essai sous /folio/
-        run: pnpm --filter @folio/testbed build
+      # Même ordre que « pnpm check » : tokens, puis tous les paquets (le Storybook a besoin de la bibliothèque compilée).
+      - name: Build des tokens, de la bibliothèque et du banc d'essai sous /folio/
+        run: pnpm tokens && pnpm build
         env:
           FOLIO_BASE: /folio/
 
