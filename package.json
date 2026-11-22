@@ -15,5 +15,21 @@
     "test": "pnpm -r test",
     "storybook": "pnpm --filter @emmanuelplougoulm/folio storybook",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10",
+    "@vue/eslint-config-typescript": "^14",
+    "eslint": "^10",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10",
+    "eslint-plugin-vuejs-accessibility": "^2",
+    "globals": "^17.14.0",
+    "postcss-html": "^2.0.1",
+    "prettier": "^3",
+    "stylelint": "^18",
+    "stylelint-config-recommended-vue": "^2",
+    "stylelint-config-standard": "^41",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8"
   }
 }
