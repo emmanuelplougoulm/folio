@@ -8,17 +8,20 @@ import { contrastRatio } from '../tokens/contrast';
 const toCssVar = (key: string) =>
   `--f-${key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-const rows = Object.keys(light).map((key) => {
-  const l = (light as Record<string, string>)[key] ?? '';
-  const d = (dark as Record<string, string>)[key] ?? '';
-  return {
-    name: toCssVar(key),
-    light: l,
-    dark: d,
-    onBgLight: contrastRatio(l, light.ColorBg).toFixed(2),
-    onBgDark: contrastRatio(d, dark.ColorBg).toFixed(2)
-  };
-});
+// Les couleurs translucides (voile) n'ont pas de contraste mesurable seules : on ne liste que les opaques.
+const rows = Object.keys(light)
+  .filter((key) => /^#[0-9a-f]{6}$/i.test((light as Record<string, string>)[key] ?? ''))
+  .map((key) => {
+    const l = (light as Record<string, string>)[key] ?? '';
+    const d = (dark as Record<string, string>)[key] ?? '';
+    return {
+      name: toCssVar(key),
+      light: l,
+      dark: d,
+      onBgLight: contrastRatio(l, light.ColorBg).toFixed(2),
+      onBgDark: contrastRatio(d, dark.ColorBg).toFixed(2)
+    };
+  });
 
 const meta = {
   title: 'Fondations/Couleurs',
