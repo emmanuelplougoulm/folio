@@ -2,7 +2,7 @@
 
 Folio est un design system Vue 3 sobre et éditorial, accessible par défaut, pensé pour des parcours à formulaires : paiement, multi-étapes, trois langues (FR, EN, ES) et états d'erreur.
 
-> Statut : jalon 1, le socle. Les composants arrivent par jalons démontrables.
+> Statut : écran 1 (accueil et connexion). Les composants sont construits au moment où un écran du banc d’essai en a besoin.
 
 ## Structure
 

@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Banc d'essai Folio",
-    "skipToContent": "Aller au contenu"
+    "skipToContent": "Aller au contenu",
+    "mainNav": "Navigation principale"
   },
   "locale": {
     "label": "Langue",
@@ -9,9 +10,45 @@
     "en": "English",
     "es": "Español"
   },
+  "nav": {
+    "signIn": "Se connecter",
+    "account": "Mon compte"
+  },
   "home": {
     "title": "Un parcours de démonstration, testé de bout en bout",
-    "intro": "Cette application sert de terrain d'exercice : formulaires, parcours en plusieurs étapes, paiement fictif, trois langues et états d'erreur."
+    "intro": "Cette application sert de terrain d'exercice : formulaires, parcours en plusieurs étapes, paiement fictif, trois langues et états d'erreur.",
+    "cta": "Se connecter",
+    "ctaAccount": "Accéder à mon compte"
+  },
+  "login": {
+    "title": "Connexion",
+    "intro": "Connectez-vous pour suivre vos commandes.",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "showPassword": "Afficher",
+    "hidePassword": "Masquer",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours",
+    "errorSummary": "Le formulaire contient {n} erreur | Le formulaire contient {n} erreurs",
+    "failed": "Connexion impossible",
+    "invalidCredentials": "Adresse e-mail ou mot de passe incorrect. Vérifiez votre saisie et réessayez.",
+    "accountLocked": "Ce compte est verrouillé. Contactez le support pour le débloquer.",
+    "demoTitle": "Compte de démonstration",
+    "demoBody": "Utilisez {email} avec le mot de passe {password}."
+  },
+  "account": {
+    "title": "Mon compte",
+    "welcome": "Bonjour {name}, vous êtes connecté avec {email}.",
+    "signOut": "Se déconnecter"
+  },
+  "validation": {
+    "email": {
+      "required": "Saisissez votre adresse e-mail.",
+      "format": "Saisissez une adresse e-mail au format nom{'@'}exemple.fr."
+    },
+    "password": {
+      "required": "Saisissez votre mot de passe."
+    }
   },
   "notFound": {
     "title": "Page introuvable",

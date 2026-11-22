@@ -1,26 +1,33 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { FButton } from '@emmanuelplougoulm/folio';
+import { session } from '../services/session';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 </script>
 
 <template>
   <h1 class="tb-title">{{ t('home.title') }}</h1>
   <p class="tb-lead">{{ t('home.intro') }}</p>
+  <p class="tb-actions">
+    <FButton
+      v-if="session.user.value"
+      :as="RouterLink"
+      :to="{ name: 'account', params: { locale } }"
+      variant="primary"
+      size="lg"
+    >
+      {{ t('home.ctaAccount') }}
+    </FButton>
+    <FButton
+      v-else
+      :as="RouterLink"
+      :to="{ name: 'login', params: { locale } }"
+      variant="primary"
+      size="lg"
+    >
+      {{ t('home.cta') }}
+    </FButton>
+  </p>
 </template>
-
-<style>
-.tb-title {
-  margin: 0;
-  font-family: var(--f-font-family-serif);
-  font-size: var(--f-font-size-3xl);
-  font-weight: var(--f-font-weight-medium);
-  line-height: var(--f-font-line-height-tight);
-}
-
-.tb-lead {
-  margin-block: var(--f-space-4) 0;
-  font-size: var(--f-font-size-lg);
-  color: var(--f-color-text-muted);
-}
-</style>

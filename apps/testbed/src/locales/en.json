@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Folio testbed",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "mainNav": "Main navigation"
   },
   "locale": {
     "label": "Language",
@@ -9,9 +10,45 @@
     "en": "English",
     "es": "Español"
   },
+  "nav": {
+    "signIn": "Sign in",
+    "account": "My account"
+  },
   "home": {
     "title": "A demo journey, tested end to end",
-    "intro": "This application is a practice ground: forms, multi-step journeys, mock payment, three languages and error states."
+    "intro": "This application is a practice ground: forms, multi-step journeys, mock payment, three languages and error states.",
+    "cta": "Sign in",
+    "ctaAccount": "Go to my account"
+  },
+  "login": {
+    "title": "Sign in",
+    "intro": "Sign in to track your orders.",
+    "email": "Email address",
+    "password": "Password",
+    "showPassword": "Show",
+    "hidePassword": "Hide",
+    "submit": "Sign in",
+    "submitting": "Signing in",
+    "errorSummary": "There is {n} problem with this form | There are {n} problems with this form",
+    "failed": "Couldn't sign you in",
+    "invalidCredentials": "Incorrect email address or password. Check what you entered and try again.",
+    "accountLocked": "This account is locked. Contact support to unlock it.",
+    "demoTitle": "Demo account",
+    "demoBody": "Use {email} with the password {password}."
+  },
+  "account": {
+    "title": "My account",
+    "welcome": "Hello {name}, you're signed in as {email}.",
+    "signOut": "Sign out"
+  },
+  "validation": {
+    "email": {
+      "required": "Enter your email address.",
+      "format": "Enter an email address in the format name{'@'}example.com."
+    },
+    "password": {
+      "required": "Enter your password."
+    }
   },
   "notFound": {
     "title": "Page not found",

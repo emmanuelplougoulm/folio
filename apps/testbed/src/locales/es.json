@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Banco de pruebas Folio",
-    "skipToContent": "Ir al contenido"
+    "skipToContent": "Ir al contenido",
+    "mainNav": "Navegación principal"
   },
   "locale": {
     "label": "Idioma",
@@ -9,9 +10,45 @@
     "en": "English",
     "es": "Español"
   },
+  "nav": {
+    "signIn": "Iniciar sesión",
+    "account": "Mi cuenta"
+  },
   "home": {
     "title": "Un recorrido de demostración, probado de principio a fin",
-    "intro": "Esta aplicación es un campo de práctica: formularios, recorridos de varios pasos, pago simulado, tres idiomas y estados de error."
+    "intro": "Esta aplicación es un campo de práctica: formularios, recorridos de varios pasos, pago simulado, tres idiomas y estados de error.",
+    "cta": "Iniciar sesión",
+    "ctaAccount": "Ir a mi cuenta"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "intro": "Inicia sesión para seguir tus pedidos.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "showPassword": "Mostrar",
+    "hidePassword": "Ocultar",
+    "submit": "Iniciar sesión",
+    "submitting": "Iniciando sesión",
+    "errorSummary": "El formulario contiene {n} error | El formulario contiene {n} errores",
+    "failed": "No se ha podido iniciar sesión",
+    "invalidCredentials": "Correo electrónico o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.",
+    "accountLocked": "Esta cuenta está bloqueada. Contacta con el servicio de asistencia para desbloquearla.",
+    "demoTitle": "Cuenta de demostración",
+    "demoBody": "Usa {email} con la contraseña {password}."
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "welcome": "Hola, {name}. Has iniciado sesión con {email}.",
+    "signOut": "Cerrar sesión"
+  },
+  "validation": {
+    "email": {
+      "required": "Introduce tu correo electrónico.",
+      "format": "Introduce un correo electrónico con el formato nombre{'@'}ejemplo.es."
+    },
+    "password": {
+      "required": "Introduce tu contraseña."
+    }
   },
   "notFound": {
     "title": "Página no encontrada",
