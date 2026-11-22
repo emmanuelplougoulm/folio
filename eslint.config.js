@@ -40,12 +40,23 @@ export default defineConfigWithVueTs(
       'vue/no-bare-strings-in-template': 'error',
       // Avec defineProps typé, l'optionnalité est portée par le type.
       'vue/require-default-prop': 'off',
-      '@typescript-eslint/consistent-type-imports': 'error'
+      '@typescript-eslint/consistent-type-imports': 'error',
+      // Les labels Folio sont reliés par for/id (champ hors du label).
+      'vuejs-accessibility/label-has-for': [
+        'error',
+        { required: { some: ['nesting', 'id'] } }
+      ]
     }
   },
   {
     files: ['**/*.config.{js,ts}', '**/.storybook/**'],
     languageOptions: { globals: { ...globals.node } }
+  },
+  {
+    // Avec la déstructuration des props Vue, une valeur par défaut « inutile » pour TS
+    // (undefined, ou true sur un booléen) change le comportement à l'exécution.
+    files: ['**/*.vue'],
+    rules: { '@typescript-eslint/no-useless-default-assignment': 'off' }
   },
   {
     files: ['**/*.stories.ts', '**/*.test.ts'],
