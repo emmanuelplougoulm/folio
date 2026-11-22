@@ -63,10 +63,10 @@ const describedBy = computed(
     ]"
     :aria-describedby="describedBy"
   >
-    <legend
-      :class="['f-radio-group__legend', { 'f-radio-group__legend--required': required }]"
-    >
-      {{ legend }}
+    <!-- Astérisque masqué aux lecteurs d'écran : le nom du groupe reste « legend ». -->
+    <legend class="f-radio-group__legend">
+      {{ legend
+      }}<span v-if="required" class="f-radio-group__required" aria-hidden="true">*</span>
     </legend>
     <p v-if="hint" :id="hintId" class="f-radio-group__hint">{{ hint }}</p>
     <p v-if="error" :id="errorId" class="f-radio-group__error">{{ error }}</p>
@@ -138,10 +138,9 @@ const describedBy = computed(
   font-weight: var(--f-font-weight-semibold);
 }
 
-.f-radio-group__legend--required::after {
+.f-radio-group__required {
   margin-inline-start: var(--f-space-1);
   color: var(--f-color-danger);
-  content: '*';
 }
 
 .f-radio-group__hint {
@@ -221,6 +220,12 @@ const describedBy = computed(
   position: absolute;
   inset: 0;
   content: '';
+}
+
+/* Le radio reste au-dessus de la zone étirée : il reçoit lui-même le pointeur. */
+.f-radio-group--card .f-radio-group__input {
+  position: relative;
+  z-index: 1;
 }
 
 .f-radio-group--card .f-radio-group__option--checked {

@@ -42,6 +42,15 @@ describe('FRadioGroup', () => {
     expect(screen.getByLabelText('En point relais')).toHaveFocus();
   });
 
+  it('requis : astérisque décoratif, hors du nom du groupe', () => {
+    render(FRadioGroup, {
+      props: { legend: 'Mode de livraison', options, required: true }
+    });
+    const group = screen.getByRole('group', { name: 'Mode de livraison' });
+    expect(group.querySelector('legend [aria-hidden="true"]')).toHaveTextContent('*');
+    expect(screen.getAllByRole('radio')[0]).toBeRequired();
+  });
+
   it('erreur reliée au groupe et radios invalides', () => {
     render(FRadioGroup, {
       props: {

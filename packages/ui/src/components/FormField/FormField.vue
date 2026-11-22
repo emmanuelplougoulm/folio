@@ -52,11 +52,11 @@ provide(formFieldKey, {
 
 <template>
   <div :class="['f-form-field', { 'f-form-field--invalid': invalid }]">
-    <label
-      :for="fieldId"
-      :class="['f-form-field__label', { 'f-form-field__label--required': required }]"
-      >{{ label }}</label
-    >
+    <!-- Astérisque hors du <label> : le nom accessible et getByLabelText restent exacts. -->
+    <div class="f-form-field__label-row">
+      <label :for="fieldId" class="f-form-field__label">{{ label }}</label>
+      <span v-if="required" class="f-form-field__required" aria-hidden="true">*</span>
+    </div>
     <p v-if="hint" :id="hintId" class="f-form-field__hint">{{ hint }}</p>
     <slot
       :id="fieldId"
@@ -90,10 +90,16 @@ provide(formFieldKey, {
   color: var(--f-color-text);
 }
 
-.f-form-field__label--required::after {
-  margin-inline-start: var(--f-space-1);
+.f-form-field__label-row {
+  display: flex;
+  gap: var(--f-space-1);
+  align-items: baseline;
+}
+
+/* Astérisque décoratif : l'obligation est portée par required, pas par le nom accessible. */
+.f-form-field__required {
+  font-size: var(--f-font-size-sm);
   color: var(--f-color-danger);
-  content: '*';
 }
 
 .f-form-field__hint {

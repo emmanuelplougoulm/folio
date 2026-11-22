@@ -35,9 +35,10 @@ describe('FFormField + FTextInput', () => {
     );
   });
 
-  it('propage required et disabled au champ natif', () => {
+  it('propage required et disabled au champ natif, sans astérisque dans le nom', () => {
     renderField({ label: 'Nom', required: true, disabled: true });
-    const input = screen.getByLabelText('Nom');
+    const input = screen.getByRole('textbox', { name: 'Nom' });
+    expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true');
     expect(input).toBeRequired();
     expect(input).toBeDisabled();
   });
