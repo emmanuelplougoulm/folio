@@ -4,6 +4,8 @@ export * from './components/Alert';
 export * from './components/Button';
 export * from './components/Card';
 export * from './components/Checkbox';
+export * from './components/DescriptionList';
+export * from './components/Dialog';
 export * from './components/ErrorSummary';
 export * from './components/FormField';
 export * from './components/PasswordInput';
