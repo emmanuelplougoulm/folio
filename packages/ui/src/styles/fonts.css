@@ -1,0 +1,10 @@
+/*
+ * Polices Folio (OFL-1.1), à importer par l'app : « @emmanuelplougoulm/folio/fonts.css ».
+ * Gardées hors du bundle de la librairie, pour que le bundler de l'app émette des fichiers woff2
+ * au lieu de les intégrer en base64. Grâce à unicode-range, le navigateur ne télécharge que les
+ * sous-ensembles utilisés (latin et latin-ext pour FR, EN et ES).
+ */
+@import '@fontsource-variable/source-serif-4/wght.css';
+@import '@fontsource-variable/source-serif-4/wght-italic.css';
+@import '@fontsource-variable/source-sans-3/wght.css';
+@import '@fontsource-variable/source-sans-3/wght-italic.css';

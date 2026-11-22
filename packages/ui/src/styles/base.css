@@ -1,0 +1,15 @@
+/* Base optionnelle pour une app : à importer explicitement (« @emmanuelplougoulm/folio/base.css »). */
+body {
+  margin: 0;
+  font-family: var(--f-font-family-sans);
+  font-size: var(--f-font-size-md);
+  line-height: var(--f-font-line-height-normal);
+  color: var(--f-color-text);
+  background-color: var(--f-color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--f-focus-width) solid var(--f-color-focus);
+  outline-offset: var(--f-focus-offset);
+}
