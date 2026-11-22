@@ -1,0 +1,19 @@
+{
+  "name": "folio-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . && stylelint \"**/*.{css,vue}\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r test",
+    "storybook": "pnpm --filter @emmanuelplougoulm/folio storybook",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  }
+}

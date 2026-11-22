@@ -1,0 +1,11 @@
+node_modules/
+dist/
+storybook-static/
+coverage/
+.vitest-attachments/
+__screenshots__/
+*.log
+*.tsbuildinfo
+.DS_Store
+.env*
+!.env.example
