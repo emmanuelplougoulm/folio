@@ -1,0 +1,61 @@
+name: Pages
+
+# Publie le banc d'essai (/folio/) et le Storybook (/folio/storybook/) sur GitHub Pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build du banc d'essai sous /folio/
+        run: pnpm --filter @folio/testbed build
+        env:
+          FOLIO_BASE: /folio/
+
+      - name: Build du Storybook
+        run: pnpm --filter @emmanuelplougoulm/folio build-storybook
+
+      - name: Assemblage du site
+        run: |
+          mkdir -p site
+          cp -R apps/testbed/dist/. site/
+          # GitHub Pages sert 404.html pour toute URL inconnue : le routeur de l'app prend le relais.
+          cp site/index.html site/404.html
+          cp -R packages/ui/storybook-static site/storybook
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
