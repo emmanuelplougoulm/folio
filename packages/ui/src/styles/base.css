@@ -9,6 +9,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+a,
+a:visited {
+  color: var(--f-color-accent);
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--f-color-accent-hover);
+}
+
 :focus-visible {
   outline: var(--f-focus-width) solid var(--f-color-focus);
   outline-offset: var(--f-focus-offset);
