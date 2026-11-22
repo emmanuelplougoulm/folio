@@ -1,0 +1,39 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": { "$value": "{primitive.neutral.950}", "$description": "Fond de page" },
+    "surface": { "$value": "{primitive.neutral.850}", "$description": "Cartes, champs" },
+    "surface-hover": { "$value": "{primitive.neutral.800}" },
+    "surface-sunken": { "$value": "{primitive.neutral.900}" },
+    "text": { "$value": "{primitive.neutral.150}" },
+    "text-muted": {
+      "$value": "{primitive.neutral.300}",
+      "$description": "Texte secondaire, hint, placeholder"
+    },
+    "text-disabled": {
+      "$value": "{primitive.neutral.600}",
+      "$description": "Exempté WCAG (composant inactif)"
+    },
+    "border": {
+      "$value": "{primitive.neutral.500}",
+      "$description": "Bordure de champ, au moins 3:1"
+    },
+    "border-subtle": {
+      "$value": "{primitive.neutral.700}",
+      "$description": "Séparateur décoratif"
+    },
+    "accent": { "$value": "{primitive.encre.300}" },
+    "accent-hover": { "$value": "{primitive.encre.200}" },
+    "accent-subtle": { "$value": "{primitive.encre.950}" },
+    "on-accent": { "$value": "{primitive.neutral.950}" },
+    "focus": { "$value": "{primitive.encre.300}" },
+    "danger": { "$value": "{primitive.rouge.300}" },
+    "danger-hover": { "$value": "{primitive.rouge.100}" },
+    "danger-subtle": { "$value": "{primitive.rouge.950}" },
+    "on-danger": { "$value": "{primitive.neutral.950}" },
+    "success": { "$value": "{primitive.vert.300}" },
+    "success-subtle": { "$value": "{primitive.vert.950}" },
+    "warning": { "$value": "{primitive.ocre.300}" },
+    "warning-subtle": { "$value": "{primitive.ocre.950}" }
+  }
+}

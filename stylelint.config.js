@@ -8,6 +8,8 @@ export default {
     '**/*.generated.css'
   ],
   rules: {
+    // Les bundlers résolvent les @import en chaîne (paquets npm compris).
+    'import-notation': 'string',
     // Classes BEM préfixées : f-button, f-button__icon, f-button--primary
     'selector-class-pattern': [
       '^f-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$',

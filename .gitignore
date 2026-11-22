@@ -9,3 +9,6 @@ __screenshots__/
 .DS_Store
 .env*
 !.env.example
+
+# Tokens générés par Style Dictionary
+*.generated.*

@@ -1,0 +1,3 @@
+/* CSS du package : tokens clair et sombre. Aucun reset global. Polices : voir fonts.css. */
+@import './tokens-light.generated.css';
+@import './tokens-dark.generated.css';
