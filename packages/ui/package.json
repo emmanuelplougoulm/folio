@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "@fontsource-variable/source-sans-3": "^5",
-    "@fontsource-variable/source-serif-4": "^5"
+    "@fontsource-variable/source-serif-4": "^5",
+    "reka-ui": "^2.11"
   }
 }

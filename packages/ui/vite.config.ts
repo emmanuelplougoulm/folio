@@ -20,7 +20,7 @@ export default defineConfig({
       cssFileName: 'folio'
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', /^reka-ui/],
       output: { preserveModules: false }
     },
     sourcemap: true
