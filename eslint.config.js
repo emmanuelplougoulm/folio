@@ -56,7 +56,13 @@ export default defineConfigWithVueTs(
     // Avec la déstructuration des props Vue, une valeur par défaut « inutile » pour TS
     // (undefined, ou true sur un booléen) change le comportement à l'exécution.
     files: ['**/*.vue'],
-    rules: { '@typescript-eslint/no-useless-default-assignment': 'off' }
+    rules: {
+      '@typescript-eslint/no-useless-default-assignment': 'off',
+      // typescript-eslint résout les paramètres « generic » de <script setup> à leur
+      // contrainte (string) : ces deux règles y voient des faux positifs.
+      '@typescript-eslint/no-unnecessary-type-arguments': 'off',
+      '@typescript-eslint/no-redundant-type-constituents': 'off'
+    }
   },
   {
     files: ['**/*.stories.ts', '**/*.test.ts'],
