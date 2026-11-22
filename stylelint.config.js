@@ -12,8 +12,11 @@ export default {
     'import-notation': 'string',
     // Classes BEM préfixées : f-button, f-button__icon, f-button--primary
     'selector-class-pattern': [
-      '^f-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$',
-      { message: 'Utiliser une classe BEM préfixée par « f- »' }
+      '^(f|tb)-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$',
+      {
+        message:
+          'Utiliser une classe BEM préfixée par « f- » (Folio) ou « tb- » (testbed)'
+      }
     ],
     'custom-property-pattern': [
       '^f-[a-z0-9]+(-[a-z0-9]+)*$',
@@ -23,7 +26,7 @@ export default {
   overrides: [
     {
       // Composants : aucune valeur en dur, aucune fuite globale
-      files: ['packages/ui/src/components/**/*.{vue,css}'],
+      files: ['packages/ui/src/components/**/*.{vue,css}', 'apps/*/src/**/*.{vue,css}'],
       rules: {
         'color-no-hex': true,
         'color-named': 'never',

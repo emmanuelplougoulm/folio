@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "Banc d'essai Folio",
+    "skipToContent": "Aller au contenu"
+  },
+  "locale": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "title": "Un parcours de démonstration, testé de bout en bout",
+    "intro": "Cette application sert de terrain d'exercice : formulaires, parcours en plusieurs étapes, paiement fictif, trois langues et états d'erreur."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "body": "L'adresse demandée n'existe pas ou a été déplacée.",
+    "back": "Revenir à l'accueil"
+  }
+}

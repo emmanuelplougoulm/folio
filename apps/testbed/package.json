@@ -1,0 +1,28 @@
+{
+  "name": "@folio/testbed",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65",
+    "@types/node": "^22",
+    "@vitejs/plugin-vue": "^6",
+    "typescript": "~6.0.3",
+    "vite": "^8",
+    "vue-tsc": "^3"
+  },
+  "dependencies": {
+    "@emmanuelplougoulm/folio": "workspace:^",
+    "vue": "^3.5",
+    "vue-i18n": "^11",
+    "vue-router": "^5"
+  }
+}

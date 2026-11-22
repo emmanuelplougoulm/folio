@@ -1,0 +1,9 @@
+import { createApp } from 'vue';
+import '@emmanuelplougoulm/folio/fonts.css';
+import '@emmanuelplougoulm/folio/style.css';
+import '@emmanuelplougoulm/folio/base.css';
+import App from './App.vue';
+import { i18n } from './i18n';
+import { router } from './router';
+
+createApp(App).use(i18n).use(router).mount('#app');

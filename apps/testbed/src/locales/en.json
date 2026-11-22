@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "Folio testbed",
+    "skipToContent": "Skip to content"
+  },
+  "locale": {
+    "label": "Language",
+    "fr": "Français",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "title": "A demo journey, tested end to end",
+    "intro": "This application is a practice ground: forms, multi-step journeys, mock payment, three languages and error states."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you requested doesn't exist or has moved.",
+    "back": "Back to home"
+  }
+}

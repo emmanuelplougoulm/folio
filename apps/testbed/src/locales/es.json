@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "Banco de pruebas Folio",
+    "skipToContent": "Ir al contenido"
+  },
+  "locale": {
+    "label": "Idioma",
+    "fr": "Français",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "title": "Un recorrido de demostración, probado de principio a fin",
+    "intro": "Esta aplicación es un campo de práctica: formularios, recorridos de varios pasos, pago simulado, tres idiomas y estados de error."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "La dirección solicitada no existe o se ha movido.",
+    "back": "Volver al inicio"
+  }
+}
