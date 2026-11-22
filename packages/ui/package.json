@@ -31,7 +31,10 @@
       "folio-source": "./src/styles/base.css",
       "default": "./dist/base.css"
     },
-    "./tokens/*.json": "./dist/tokens/*.json"
+    "./tokens/*.json": {
+      "folio-source": "./src/styles/tokens-*.generated.json",
+      "default": "./dist/tokens/*.json"
+    }
   },
   "scripts": {
     "build": "pnpm tokens && vite build && node scripts/copy-assets.mjs",
