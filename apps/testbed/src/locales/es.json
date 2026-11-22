@@ -49,13 +49,37 @@
       "offer": "Oferta",
       "total": "Total",
       "emptyTitle": "Haz tu primer pedido",
-      "emptyBody": "Tus pedidos y su seguimiento aparecerán aquí."
+      "emptyBody": "Tus pedidos y su seguimiento aparecerán aquí.",
+      "columns": {
+        "number": "Pedido",
+        "status": "Estado"
+      },
+      "pagination": {
+        "label": "Paginación de pedidos",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "page": "Página {n}"
+      }
     },
     "status": {
       "confirmed": "Confirmado",
       "preparing": "En preparación",
       "delivered": "Entregado",
       "cancelled": "Cancelado"
+    },
+    "tabs": {
+      "label": "Secciones de la cuenta",
+      "orders": "Pedidos",
+      "preferences": "Preferencias"
+    },
+    "preferences": {
+      "legend": "Notificaciones por correo electrónico",
+      "tracking": "Seguimiento del pedido",
+      "trackingHint": "Un correo en cada etapa de la entrega.",
+      "newsletter": "Boletín informativo",
+      "newsletterHint": "Las novedades, una vez al mes.",
+      "save": "Guardar",
+      "saving": "Guardando"
     }
   },
   "validation": {
@@ -242,6 +266,9 @@
     },
     "signedOut": {
       "title": "Has cerrado sesión"
+    },
+    "preferencesSaved": {
+      "title": "Tus preferencias se han guardado"
     }
   }
 }

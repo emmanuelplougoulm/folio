@@ -49,13 +49,37 @@
       "offer": "Plan",
       "total": "Total",
       "emptyTitle": "Place your first order",
-      "emptyBody": "Your orders and their tracking will appear here."
+      "emptyBody": "Your orders and their tracking will appear here.",
+      "columns": {
+        "number": "Order",
+        "status": "Status"
+      },
+      "pagination": {
+        "label": "Orders pagination",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {n}"
+      }
     },
     "status": {
       "confirmed": "Confirmed",
       "preparing": "Being prepared",
       "delivered": "Delivered",
       "cancelled": "Cancelled"
+    },
+    "tabs": {
+      "label": "Account sections",
+      "orders": "Orders",
+      "preferences": "Preferences"
+    },
+    "preferences": {
+      "legend": "Email notifications",
+      "tracking": "Order tracking",
+      "trackingHint": "An email at each delivery step.",
+      "newsletter": "Newsletter",
+      "newsletterHint": "What's new, once a month.",
+      "save": "Save",
+      "saving": "Saving"
     }
   },
   "validation": {
@@ -242,6 +266,9 @@
     },
     "signedOut": {
       "title": "You're signed out"
+    },
+    "preferencesSaved": {
+      "title": "Your preferences are saved"
     }
   }
 }
