@@ -2,7 +2,7 @@
 
 Folio est un design system Vue 3 sobre et éditorial, accessible par défaut, pensé pour des parcours à formulaires : paiement, multi-étapes, trois langues (FR, EN, ES) et états d'erreur.
 
-> Statut : 28 composants, construits au moment où un écran du banc d’essai en avait besoin (connexion, tunnel de commande, paiement, compte, erreurs, e-mails).
+> Statut : 28 composants, construits au moment où un écran du banc d’essai en avait besoin (connexion, tunnel de commande, paiement, compte, erreurs, e-mails, processus versionné).
 
 ## Structure
 
@@ -38,6 +38,15 @@ Les tokens sont écrits au format [DTCG](https://www.designtokens.org/) dans `pa
 - `base` : espacement, rayons, typographie, ombres, durées, z-index et focus.
 
 Un test vérifie que chaque paire texte/fond atteint 4,5:1 et chaque paire composant/fond 3:1, dans les deux thèmes.
+
+## Processus versionné
+
+Le tunnel de commande du banc d'essai existe en deux versions, décrites dans `apps/testbed/src/order/process.ts` :
+
+- **v1** : offre, livraison, récapitulatif, paiement. L'e-mail de confirmation se saisit au paiement.
+- **v2** (par défaut) : une étape « Coordonnées » s'ajoute avant le récapitulatif (FOL-214), et la livraison à domicile est offerte dès 30 € par mois (FOL-221).
+
+Une commande garde la version avec laquelle elle a été commencée, même si la version par défaut change. Un brouillon enregistré avant les versions reprend en v1. Chaque changement renvoie à un ticket fictif, affiché sur la page `/:locale/process` (notes de version et réglage de démo). Le paramètre `?process=v1` choisit la version d'une commande qui n'a pas commencé.
 
 ## Développement
 
