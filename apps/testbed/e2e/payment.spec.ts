@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { CHALLENGE_CODE, TEST_CARDS } from '../src/mocks/cards';
+import { choosePickupPoint } from './helpers';
 
 /** Parcourt le tunnel jusqu'au paiement (offre Plus, point relais : total 19,90 €). */
 async function reachPayment(page: Page, locale = 'fr') {
@@ -26,7 +27,7 @@ async function reachPayment(page: Page, locale = 'fr') {
   await page.getByLabel(labels.offer).check();
   await page.getByRole('button', { name: labels.next }).click();
   await page.getByRole('radio', { name: labels.relay }).check();
-  await page.getByRole('combobox', { name: labels.point }).selectOption('lyon-2');
+  await choosePickupPoint(page, 'lyon', 'Librairie du Rhône', labels.point);
   await page.getByRole('button', { name: labels.next }).click();
   await page.getByLabel(labels.terms).check();
   await page.getByRole('button', { name: labels.toPayment }).click();
@@ -222,7 +223,7 @@ test.describe('accessibilité du paiement (axe, WCAG 2.2 AA)', () => {
     }) => {
       await page.emulateMedia({ colorScheme });
       await reachPayment(page, 'en');
-      await page.getByRole('button', { name: /^Pay/ }).click();
+      await page.getByRole('button', { name: /^Pay €/ }).click();
       await expect(page.getByRole('region', { name: /problems/ })).toBeFocused();
       expect((await axe(page)).violations).toEqual([]);
 
@@ -230,7 +231,7 @@ test.describe('accessibilité du paiement (axe, WCAG 2.2 AA)', () => {
       await page.getByLabel('Expiry date').fill('12/30');
       await page.getByLabel('Security code').fill('123');
       await page.getByLabel('Name on card').fill('Ana Demo');
-      await page.getByRole('button', { name: /^Pay/ }).click();
+      await page.getByRole('button', { name: /^Pay €/ }).click();
       await expect(page.getByRole('dialog')).toBeVisible();
       expect((await axe(page)).violations).toEqual([]);
     });

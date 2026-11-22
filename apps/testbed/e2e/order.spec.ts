@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { choosePickupPoint } from './helpers';
 
 const continueButton = (page: Page) => page.getByRole('button', { name: 'Continuer' });
 const stepper = (page: Page) =>
@@ -90,7 +91,7 @@ test.describe('tunnel de commande', () => {
     await expect(
       page.getByRole('region', { name: 'Le formulaire contient 1 erreur' })
     ).toBeFocused();
-    await page.getByLabel('Point relais', { exact: true }).selectOption('lyon-2');
+    await choosePickupPoint(page, 'lyon', 'Librairie du Rhône');
     await continueButton(page).click();
     await expect(page).toHaveURL('/fr/order/review');
     await expect(page.getByText('Librairie du Rhône')).toBeVisible();
@@ -155,7 +156,7 @@ test.describe('tunnel de commande', () => {
   }) => {
     await chooseOffer(page);
     await page.getByLabel('Retrait en point relais').check();
-    await page.getByLabel('Point relais', { exact: true }).selectOption('closed');
+    await choosePickupPoint(page, 'Lille', 'Kiosque de la gare');
     await continueButton(page).click();
     await page.getByLabel("J'accepte les conditions générales de vente").check();
     await page.getByRole('button', { name: 'Continuer vers le paiement' }).click();
@@ -164,7 +165,9 @@ test.describe('tunnel de commande', () => {
     await expect(alert).toContainText('Commande impossible');
     await alert.getByRole('link', { name: 'Modifier la livraison' }).click();
     await expect(page).toHaveURL('/fr/order/delivery');
-    await expect(page.getByLabel('Point relais', { exact: true })).toHaveValue('closed');
+    await expect(
+      page.getByRole('combobox', { name: 'Point relais', exact: true })
+    ).toHaveValue('Kiosque de la gare');
   });
 
   test('le brouillon survit à un rechargement', async ({ page }) => {

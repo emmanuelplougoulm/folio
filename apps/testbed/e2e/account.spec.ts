@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { ACCOUNTS, DEMO_PASSWORD } from '../src/mocks/accounts';
 import { TEST_CARDS } from '../src/mocks/cards';
+import { choosePickupPoint } from './helpers';
 
 async function signIn(page: Page, email: string) {
   await page.goto('/fr/login');
@@ -133,7 +134,7 @@ test.describe('historique des commandes', () => {
     await page.getByLabel('Pro').check();
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByRole('radio', { name: 'Retrait en point relais' }).check();
-    await page.getByRole('combobox', { name: 'Point relais' }).selectOption('lyon-2');
+    await choosePickupPoint(page, 'lyon', 'Librairie du Rhône');
     await page.getByRole('button', { name: 'Continuer' }).click();
     await page.getByLabel("J'accepte les conditions générales de vente").check();
     await page.getByRole('button', { name: 'Continuer vers le paiement' }).click();
