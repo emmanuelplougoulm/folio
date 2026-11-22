@@ -66,6 +66,18 @@ export const router = createRouter({
           meta: { titleKey: 'order.confirmation.title' }
         },
         {
+          path: 'error',
+          name: 'server-error',
+          component: () => import('./pages/ServerErrorPage.vue'),
+          meta: { titleKey: 'serverError.title' }
+        },
+        {
+          // Point d'essai : déclenche une erreur de rendu (voir CrashPage.vue).
+          path: '__crash',
+          name: 'crash',
+          component: () => import('./pages/CrashPage.vue')
+        },
+        {
           path: ':pathMatch(.*)*',
           name: 'not-found',
           component: () => import('./pages/NotFoundPage.vue'),
@@ -120,3 +132,20 @@ router.afterEach(async (to, from) => {
     heading.focus({ preventScroll: false });
   }
 });
+
+/** Erreur imprévue (rendu, navigation) : page d'erreur dans la langue courante, sans écran blanc. */
+export function showServerError(error: unknown) {
+  console.error(error);
+  const current = router.currentRoute.value;
+  if (current.name === 'server-error') return;
+  const locale = isLocale(current.params['locale'])
+    ? current.params['locale']
+    : detectLocale();
+  void router.replace({
+    name: 'server-error',
+    params: { locale },
+    query: current.name && current.name !== 'crash' ? { from: current.fullPath } : {}
+  });
+}
+
+router.onError(showServerError);

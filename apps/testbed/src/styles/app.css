@@ -30,3 +30,13 @@
 .tb-order__block {
   margin-block-start: var(--f-space-6);
 }
+
+.tb-breadcrumb {
+  margin-block-end: var(--f-space-4);
+}
+
+/* Le titre reçoit le focus à chaque navigation (annonce au lecteur d'écran), mais ce n'est pas
+   un élément interactif : pas de contour de focus. */
+.tb-title:focus {
+  outline: none;
+}

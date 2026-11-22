@@ -2,7 +2,8 @@
   "app": {
     "name": "Banco de pruebas Folio",
     "skipToContent": "Ir al contenido",
-    "mainNav": "Navegación principal"
+    "mainNav": "Navegación principal",
+    "breadcrumb": "Ruta de navegación"
   },
   "locale": {
     "label": "Idioma",
@@ -20,7 +21,8 @@
     "intro": "Esta aplicación es un campo de práctica: formularios, recorridos de varios pasos, pago simulado, tres idiomas y estados de error.",
     "cta": "Iniciar sesión",
     "ctaAccount": "Ir a mi cuenta",
-    "ctaOrder": "Empezar un pedido"
+    "ctaOrder": "Empezar un pedido",
+    "breadcrumb": "Inicio"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -59,7 +61,11 @@
         "previous": "Anterior",
         "next": "Siguiente",
         "page": "Página {n}"
-      }
+      },
+      "loading": "Cargando los pedidos…",
+      "errorTitle": "Pedidos no disponibles",
+      "errorBody": "El servicio de pedidos no responde. Inténtalo de nuevo en un momento.",
+      "retry": "Reintentar"
     },
     "status": {
       "confirmed": "Confirmado",
@@ -155,7 +161,9 @@
       "instructionsHint": "Código de acceso, piso, horario…",
       "instructionsCounter": "Queda {count} carácter | Quedan {count} caracteres",
       "pickupPoint": "Punto de recogida",
-      "pickupPointPlaceholder": "Elige un punto de recogida"
+      "pickupPointPlaceholder": "Ciudad, código postal o nombre",
+      "pickupPointEmpty": "No se ha encontrado ningún punto de recogida",
+      "pickupPointToggle": "Mostrar los puntos de recogida"
     },
     "countries": {
       "FR": "Francia",
@@ -252,6 +260,10 @@
         "format": "El código de seguridad tiene 3 o 4 dígitos."
       },
       "name": "Introduce el nombre tal y como aparece en la tarjeta."
+    },
+    "security": {
+      "label": "Seguridad del pago",
+      "tooltip": "Pago simulado: ningún dato de la tarjeta sale de tu navegador."
     }
   },
   "notifications": {
@@ -270,5 +282,11 @@
     "preferencesSaved": {
       "title": "Tus preferencias se han guardado"
     }
+  },
+  "serverError": {
+    "title": "Se ha producido un error",
+    "body": "No hemos podido mostrar esta página. Inténtalo de nuevo o vuelve al inicio.",
+    "retry": "Reintentar",
+    "home": "Volver al inicio"
   }
 }

@@ -2,7 +2,8 @@
   "app": {
     "name": "Banc d'essai Folio",
     "skipToContent": "Aller au contenu",
-    "mainNav": "Navigation principale"
+    "mainNav": "Navigation principale",
+    "breadcrumb": "Fil d'Ariane"
   },
   "locale": {
     "label": "Langue",
@@ -20,7 +21,8 @@
     "intro": "Cette application sert de terrain d'exercice : formulaires, parcours en plusieurs étapes, paiement fictif, trois langues et états d'erreur.",
     "cta": "Se connecter",
     "ctaAccount": "Accéder à mon compte",
-    "ctaOrder": "Commencer une commande"
+    "ctaOrder": "Commencer une commande",
+    "breadcrumb": "Accueil"
   },
   "login": {
     "title": "Connexion",
@@ -59,7 +61,11 @@
         "previous": "Précédente",
         "next": "Suivante",
         "page": "Page {n}"
-      }
+      },
+      "loading": "Chargement des commandes…",
+      "errorTitle": "Commandes indisponibles",
+      "errorBody": "Le service des commandes ne répond pas. Réessayez dans un instant.",
+      "retry": "Réessayer"
     },
     "status": {
       "confirmed": "Confirmée",
@@ -155,7 +161,9 @@
       "instructionsHint": "Digicode, étage, horaires…",
       "instructionsCounter": "Il reste {count} caractère | Il reste {count} caractères",
       "pickupPoint": "Point relais",
-      "pickupPointPlaceholder": "Choisissez un point relais"
+      "pickupPointPlaceholder": "Ville, code postal ou nom",
+      "pickupPointEmpty": "Aucun point relais trouvé",
+      "pickupPointToggle": "Afficher les points relais"
     },
     "countries": {
       "FR": "France",
@@ -252,6 +260,10 @@
         "format": "Le cryptogramme comporte 3 ou 4 chiffres."
       },
       "name": "Saisissez le nom du titulaire, tel qu'il figure sur la carte."
+    },
+    "security": {
+      "label": "Sécurité du paiement",
+      "tooltip": "Paiement simulé : aucune donnée de carte ne quitte votre navigateur."
     }
   },
   "notifications": {
@@ -270,5 +282,11 @@
     "preferencesSaved": {
       "title": "Vos préférences sont enregistrées"
     }
+  },
+  "serverError": {
+    "title": "Une erreur est survenue",
+    "body": "Nous n'avons pas pu afficher cette page. Réessayez, ou revenez à l'accueil.",
+    "retry": "Réessayer",
+    "home": "Revenir à l'accueil"
   }
 }

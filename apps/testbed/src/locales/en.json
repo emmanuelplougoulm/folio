@@ -2,7 +2,8 @@
   "app": {
     "name": "Folio testbed",
     "skipToContent": "Skip to content",
-    "mainNav": "Main navigation"
+    "mainNav": "Main navigation",
+    "breadcrumb": "Breadcrumb"
   },
   "locale": {
     "label": "Language",
@@ -20,7 +21,8 @@
     "intro": "This application is a practice ground: forms, multi-step journeys, mock payment, three languages and error states.",
     "cta": "Sign in",
     "ctaAccount": "Go to my account",
-    "ctaOrder": "Start an order"
+    "ctaOrder": "Start an order",
+    "breadcrumb": "Home"
   },
   "login": {
     "title": "Sign in",
@@ -59,7 +61,11 @@
         "previous": "Previous",
         "next": "Next",
         "page": "Page {n}"
-      }
+      },
+      "loading": "Loading orders…",
+      "errorTitle": "Orders unavailable",
+      "errorBody": "The orders service isn't responding. Try again in a moment.",
+      "retry": "Try again"
     },
     "status": {
       "confirmed": "Confirmed",
@@ -155,7 +161,9 @@
       "instructionsHint": "Door code, floor, opening hours…",
       "instructionsCounter": "You have {count} character remaining | You have {count} characters remaining",
       "pickupPoint": "Pickup point",
-      "pickupPointPlaceholder": "Choose a pickup point"
+      "pickupPointPlaceholder": "Town, postcode or name",
+      "pickupPointEmpty": "No pickup point found",
+      "pickupPointToggle": "Show pickup points"
     },
     "countries": {
       "FR": "France",
@@ -252,6 +260,10 @@
         "format": "The security code is 3 or 4 digits."
       },
       "name": "Enter the name as it appears on the card."
+    },
+    "security": {
+      "label": "Payment security",
+      "tooltip": "Mock payment: no card data leaves your browser."
     }
   },
   "notifications": {
@@ -270,5 +282,11 @@
     "preferencesSaved": {
       "title": "Your preferences are saved"
     }
+  },
+  "serverError": {
+    "title": "Something went wrong",
+    "body": "We couldn't show this page. Try again, or go back to the home page.",
+    "retry": "Try again",
+    "home": "Back to home"
   }
 }

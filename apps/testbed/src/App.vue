@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { FSkipLink, FToastProvider } from '@emmanuelplougoulm/folio';
+import { FLanguageSwitcher, FSkipLink, FToastProvider } from '@emmanuelplougoulm/folio';
 import { LOCALES, type Locale } from './i18n';
 import { session } from './services/session';
 
@@ -10,13 +10,16 @@ const { t, locale } = useI18n();
 const route = useRoute();
 
 /** Même page, autre langue : on ne remplace que le paramètre locale. */
-const localeLinks = computed(() =>
+const languages = computed(() =>
   LOCALES.map((code: Locale) => ({
     code,
-    to: {
-      name: route.name ?? 'home',
-      params: { ...route.params, locale: code },
-      query: route.query
+    label: t(`locale.${code}`),
+    link: {
+      to: {
+        name: route.name ?? 'home',
+        params: { ...route.params, locale: code },
+        query: route.query
+      }
     }
   }))
 );
@@ -52,21 +55,12 @@ const localeLinks = computed(() =>
           >{{ t('nav.signIn') }}</RouterLink
         >
       </nav>
-      <nav :aria-label="t('locale.label')">
-        <ul class="tb-header__locales">
-          <li v-for="link in localeLinks" :key="link.code">
-            <RouterLink
-              :to="link.to"
-              :lang="link.code"
-              :hreflang="link.code"
-              :aria-current="link.code === locale ? 'true' : undefined"
-              class="tb-header__locale"
-            >
-              {{ t(`locale.${link.code}`) }}
-            </RouterLink>
-          </li>
-        </ul>
-      </nav>
+      <FLanguageSwitcher
+        :languages="languages"
+        :current="locale"
+        :label="t('locale.label')"
+        :as="RouterLink"
+      />
     </header>
     <main id="main" class="tb-main" tabindex="-1">
       <RouterView />
@@ -98,23 +92,8 @@ const localeLinks = computed(() =>
   gap: var(--f-space-4);
 }
 
-.tb-header__link,
-.tb-header__locale {
+.tb-header__link {
   color: var(--f-color-accent);
-}
-
-.tb-header__locales {
-  display: flex;
-  gap: var(--f-space-4);
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.tb-header__locale[aria-current='true'] {
-  font-weight: var(--f-font-weight-semibold);
-  color: var(--f-color-text);
-  text-decoration: none;
 }
 
 .tb-main {

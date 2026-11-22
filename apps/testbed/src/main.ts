@@ -5,6 +5,8 @@ import '@emmanuelplougoulm/folio/base.css';
 import './styles/app.css';
 import App from './App.vue';
 import { i18n } from './i18n';
-import { router } from './router';
+import { router, showServerError } from './router';
 
-createApp(App).use(i18n).use(router).mount('#app');
+const app = createApp(App).use(i18n).use(router);
+app.config.errorHandler = showServerError;
+app.mount('#app');
