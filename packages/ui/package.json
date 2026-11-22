@@ -15,12 +15,22 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "folio-source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./style.css": "./dist/folio.css",
-    "./fonts.css": "./dist/fonts.css",
-    "./base.css": "./dist/base.css",
+    "./style.css": {
+      "folio-source": "./src/styles/index.css",
+      "default": "./dist/folio.css"
+    },
+    "./fonts.css": {
+      "folio-source": "./src/styles/fonts.css",
+      "default": "./dist/fonts.css"
+    },
+    "./base.css": {
+      "folio-source": "./src/styles/base.css",
+      "default": "./dist/base.css"
+    },
     "./tokens/*.json": "./dist/tokens/*.json"
   },
   "scripts": {
