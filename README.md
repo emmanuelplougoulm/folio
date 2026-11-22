@@ -4,6 +4,8 @@
 
 Folio est un design system Vue 3 sobre et éditorial, accessible par défaut, pensé pour des parcours à formulaires : paiement, multi-étapes, trois langues (FR, EN, ES) et états d'erreur.
 
+**En ligne :** [le banc d'essai](https://emmanuelplougoulm.github.io/folio/) et [le Storybook](https://emmanuelplougoulm.github.io/folio/storybook/), publiés sur GitHub Pages à chaque push sur `main`.
+
 > Statut : 28 composants, construits au moment où un écran du banc d’essai en avait besoin (connexion, tunnel de commande, paiement, compte, erreurs, e-mails, processus versionné).
 
 ## Structure
