@@ -3,12 +3,33 @@
   "version": "0.0.0",
   "description": "Design system Vue 3 sobre et éditorial, accessible par défaut.",
   "license": "MIT",
+  "author": "Emmanuel Plougoulm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmanuelplougoulm/folio.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://github.com/emmanuelplougoulm/folio#readme",
+  "bugs": "https://github.com/emmanuelplougoulm/folio/issues",
+  "keywords": [
+    "vue",
+    "vue3",
+    "design-system",
+    "components",
+    "accessibility",
+    "a11y",
+    "design-tokens",
+    "reka-ui"
+  ],
   "type": "module",
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -36,6 +57,28 @@
       "default": "./dist/tokens/*.json"
     }
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./style.css": {
+        "default": "./dist/folio.css"
+      },
+      "./fonts.css": {
+        "default": "./dist/fonts.css"
+      },
+      "./base.css": {
+        "default": "./dist/base.css"
+      },
+      "./tokens/*.json": {
+        "default": "./dist/tokens/*.json"
+      }
+    }
+  },
   "scripts": {
     "build": "pnpm tokens && vite build && node scripts/copy-assets.mjs",
     "typecheck": "pnpm tokens && vue-tsc --noEmit -p tsconfig.json",
@@ -44,12 +87,14 @@
     "test:stories": "vitest run --project stories",
     "storybook": "pnpm tokens && storybook dev -p 6006",
     "build-storybook": "pnpm tokens && storybook build",
-    "tokens": "node scripts/build-tokens.mjs"
+    "tokens": "node scripts/build-tokens.mjs",
+    "lint:package": "publint --strict && attw --pack . --profile esm-only --entrypoints ."
   },
   "peerDependencies": {
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@microsoft/api-extractor": "^7.60.1",
     "@storybook/addon-a11y": "^10.6",
     "@storybook/addon-docs": "^10.6",
@@ -64,6 +109,7 @@
     "@vitest/browser-playwright": "^5",
     "happy-dom": "^21",
     "playwright": "^1.65",
+    "publint": "^0.3.25",
     "react": "^19",
     "react-dom": "^19",
     "storybook": "^10.6",

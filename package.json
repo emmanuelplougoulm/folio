@@ -10,16 +10,21 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint . && stylelint \"**/*.{css,vue}\"",
+    "lint:package": "pnpm --filter @emmanuelplougoulm/folio lint:package",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
     "storybook": "pnpm --filter @emmanuelplougoulm/folio storybook",
-    "check": "pnpm tokens && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+    "check": "pnpm tokens && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm lint:package && pnpm test:e2e",
     "tokens": "pnpm -r --if-present tokens",
     "test:e2e": "pnpm --filter @folio/testbed test:e2e",
-    "dev": "pnpm --filter @folio/testbed dev"
+    "dev": "pnpm --filter @folio/testbed dev",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10",
     "@vue/eslint-config-typescript": "^14",
     "eslint": "^10",
