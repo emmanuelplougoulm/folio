@@ -18,6 +18,26 @@ apps/           applications consommatrices (à venir : l'app banc d'essai)
 - **Aucune chaîne en dur.** Tout texte visible est fourni par props ou slots, pour que l'app traduise.
 - **Testé à trois niveaux** : tests unitaires (Vitest), tests de composants dans le navigateur avec contrôle a11y (stories Storybook + axe), puis régression visuelle.
 
+## Utilisation
+
+```ts
+import '@emmanuelplougoulm/folio/fonts.css'; // Source Serif 4 et Source Sans 3 (OFL)
+import '@emmanuelplougoulm/folio/style.css'; // tokens et styles des composants
+import '@emmanuelplougoulm/folio/base.css'; // optionnel : body et focus visible
+```
+
+Le thème suit `prefers-color-scheme`. On peut le forcer avec `data-theme="light"` ou `data-theme="dark"` sur `<html>`.
+
+## Tokens
+
+Les tokens sont écrits au format [DTCG](https://www.designtokens.org/) dans `packages/ui/tokens/`, puis générés par Style Dictionary en variables CSS `--f-*`. Ils sont aussi exportés en JSON (`@emmanuelplougoulm/folio/tokens/light.json` et `dark.json`).
+
+- `primitives` : la palette brute (papier, encre, rouge, vert, ocre). Elle n'est jamais exportée en CSS.
+- `semantic.light` / `semantic.dark` : les rôles (`color-text`, `color-accent`, `color-danger`…), seuls utilisés par les composants.
+- `base` : espacement, rayons, typographie, ombres, durées, z-index et focus.
+
+Un test vérifie que chaque paire texte/fond atteint 4,5:1 et chaque paire composant/fond 3:1, dans les deux thèmes.
+
 ## Développement
 
 Prérequis : Node 22 et pnpm 9.
