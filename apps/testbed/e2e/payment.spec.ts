@@ -44,6 +44,7 @@ const card = (page: Page) => ({
 
 async function fillCard(page: Page, number: string) {
   const c = card(page);
+  await page.getByLabel('Adresse e-mail').fill('ana@exemple.fr');
   await c.number.fill(number);
   await c.expiry.fill('1230');
   await c.cvc.fill('123');
@@ -86,7 +87,7 @@ test.describe('paiement', () => {
     await c.expiry.fill('01/20');
     await c.pay.click();
     await expect(
-      page.getByRole('region', { name: 'Le formulaire contient 4 erreurs' })
+      page.getByRole('region', { name: 'Le formulaire contient 5 erreurs' })
     ).toBeFocused();
     await expect(c.number).toHaveAccessibleDescription(
       "Les 16 chiffres au recto de la carte. Vérifiez le numéro de carte : il n'est pas valide."
@@ -227,6 +228,7 @@ test.describe('accessibilité du paiement (axe, WCAG 2.2 AA)', () => {
       await expect(page.getByRole('region', { name: /problems/ })).toBeFocused();
       expect((await axe(page)).violations).toEqual([]);
 
+      await page.getByLabel('Email address').fill('ana@example.com');
       await page.getByLabel('Card number').fill(TEST_CARDS.challenge);
       await page.getByLabel('Expiry date').fill('12/30');
       await page.getByLabel('Security code').fill('123');

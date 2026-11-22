@@ -110,8 +110,14 @@ test('paiement : l’info-bulle de sécurité s’ouvre au focus et se ferme ave
   await page.getByLabel("J'accepte les conditions générales de vente").check();
   await page.getByRole('button', { name: 'Continuer vers le paiement' }).click();
 
+  // Attendre que l'app ait placé le focus sur le titre (après la navigation), sinon il
+  // arrive après le nôtre et le vole.
+  await expect(page.getByRole('heading', { level: 1, name: 'Paiement' })).toBeFocused();
+  // Vraie tabulation clavier depuis « Retour », l'élément qui précède le déclencheur.
   const trigger = page.getByRole('button', { name: 'Sécurité du paiement' });
-  await trigger.focus();
+  await page.getByRole('link', { name: 'Retour' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(trigger).toBeFocused();
   const tooltip = page.getByRole('tooltip');
   await expect(tooltip).toContainText(
     'aucune donnée de carte ne quitte votre navigateur'

@@ -160,6 +160,10 @@ test.describe('onglets et préférences', () => {
   test('onglets au clavier, onglet dans l’URL', async ({ page }) => {
     await signIn(page, ACCOUNTS.demo.email);
     const tabs = page.getByRole('tablist', { name: 'Sections du compte' });
+    // Le focus de l'app sur le titre (après navigation) doit être passé avant le nôtre.
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Mon compte' })
+    ).toBeFocused();
     await tabs.getByRole('tab', { name: 'Commandes' }).focus();
     await page.keyboard.press('ArrowRight');
     const preferences = tabs.getByRole('tab', { name: 'Préférences' });
