@@ -14,9 +14,11 @@ const prices: Record<string, string> = {
   pro: '39,90 €'
 };
 
-const meta = {
+// Les types de Storybook ne savent pas typer un composant Vue « generic » (vue-tsc et
+// typescript-eslint divergent sur le cast) : le composant n'est pas déclaré dans la meta,
+// et les props sont vérifiées par vue-tsc dans le template de rendu.
+const meta: Meta = {
   title: 'Formulaires/RadioGroup',
-  component: FRadioGroup,
   args: {
     legend: 'Choisissez une offre',
     options: offers,
@@ -35,10 +37,10 @@ const meta = {
         </FRadioGroup>
       </div>`
   })
-} satisfies Meta<typeof FRadioGroup>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 export const Simple: Story = {
   play: async ({ canvas, userEvent }) => {

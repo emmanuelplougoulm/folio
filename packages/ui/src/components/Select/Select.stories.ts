@@ -10,9 +10,11 @@ const countries = [
   { value: 'ES', label: 'Espagne' }
 ];
 
-const meta = {
+// Les types de Storybook ne savent pas typer un composant Vue « generic » (vue-tsc et
+// typescript-eslint divergent sur le cast) : le composant n'est pas déclaré dans la meta,
+// et les props sont vérifiées par vue-tsc dans le template de rendu.
+const meta: Meta = {
   title: 'Formulaires/Select',
-  component: FSelect,
   args: { options: countries, placeholder: 'Choisissez un pays' },
   render: (args) => ({
     components: { FSelect, FFormField },
@@ -24,10 +26,10 @@ const meta = {
         </FFormField>
       </div>`
   })
-} satisfies Meta<typeof FSelect>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 export const Pays: Story = {
   play: async ({ canvas, userEvent }) => {
