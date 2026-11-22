@@ -31,9 +31,10 @@ export function validateDelivery(d: OrderDraft): FieldErrors<DeliveryField> {
 
 export const isEmpty = (errors: object): boolean => Object.keys(errors).length === 0;
 
-/** Index de la première étape incomplète (0 offre, 1 livraison, 2 récapitulatif). */
+/** Index de la première étape incomplète (0 offre, 1 livraison, 2 récapitulatif, 3 paiement). */
 export function firstIncompleteStep(d: OrderDraft): number {
   if (!isEmpty(validateOffer(d))) return 0;
   if (!isEmpty(validateDelivery(d))) return 1;
-  return 2;
+  if (!d.acceptedTerms || !d.reservation) return 2;
+  return 3;
 }

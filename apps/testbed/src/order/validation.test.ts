@@ -11,7 +11,9 @@ const base: OrderDraft = {
   city: '',
   country: '',
   pickupPoint: '',
-  instructions: ''
+  instructions: '',
+  acceptedTerms: false,
+  reservation: null
 };
 
 const home: OrderDraft = {
@@ -68,5 +70,9 @@ describe('validation de la commande', () => {
     expect(firstIncompleteStep(base)).toBe(0);
     expect(firstIncompleteStep({ ...base, offer: 'pro' })).toBe(1);
     expect(firstIncompleteStep(home)).toBe(2);
+    expect(firstIncompleteStep({ ...home, acceptedTerms: true })).toBe(2);
+    expect(
+      firstIncompleteStep({ ...home, acceptedTerms: true, reservation: 'R-1' })
+    ).toBe(3);
   });
 });

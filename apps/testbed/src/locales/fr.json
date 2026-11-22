@@ -62,7 +62,8 @@
     "steps": {
       "offer": "Offre",
       "delivery": "Livraison",
-      "review": "Récapitulatif"
+      "review": "Récapitulatif",
+      "payment": "Paiement"
     },
     "stepStatus": {
       "complete": "Terminée",
@@ -127,8 +128,8 @@
       "edit": "Modifier",
       "total": "Total du premier mois",
       "terms": "J'accepte les conditions générales de vente",
-      "submit": "Confirmer la commande",
-      "submitting": "Confirmation en cours",
+      "submit": "Continuer vers le paiement",
+      "submitting": "Réservation en cours",
       "failedTitle": "Commande impossible",
       "pickupUnavailable": "Ce point relais n'accepte plus de colis. Choisissez un autre point ou la livraison à domicile.",
       "changeDelivery": "Modifier la livraison"
@@ -154,6 +155,63 @@
       "country": "Choisissez un pays.",
       "pickupPoint": "Choisissez un point relais.",
       "terms": "Acceptez les conditions générales de vente pour confirmer la commande."
+    }
+  },
+  "payment": {
+    "title": "Paiement",
+    "total": "Total à payer",
+    "number": "Numéro de carte",
+    "numberHint": "Les 16 chiffres au recto de la carte.",
+    "expiry": "Date d'expiration",
+    "expiryHint": "Au format MM/AA, par exemple 04/28.",
+    "cvc": "Cryptogramme",
+    "cvcHint": "3 chiffres au dos de la carte.",
+    "name": "Nom du titulaire",
+    "submit": "Payer {amount}",
+    "submitting": "Paiement en cours",
+    "failedTitle": "Paiement non abouti",
+    "failures": {
+      "declined": "Votre banque a refusé le paiement. Essayez une autre carte.",
+      "insufficientFunds": "Le solde de la carte est insuffisant. Essayez une autre carte.",
+      "challengeFailed": "La vérification a échoué trop de fois. Aucun montant n'a été débité.",
+      "challengeCancelled": "Vous avez annulé la vérification. Aucun montant n'a été débité."
+    },
+    "testCards": {
+      "title": "Cartes de test",
+      "intro": "Paiement fictif : utilisez une date future et n'importe quel cryptogramme.",
+      "success": "Paiement accepté",
+      "challenge": "Vérification 3-D Secure",
+      "declined": "Carte refusée",
+      "insufficientFunds": "Solde insuffisant"
+    },
+    "challenge": {
+      "title": "Confirmez votre paiement",
+      "description": "Saisissez le code reçu par SMS. Démo : {code}.",
+      "code": "Code de vérification",
+      "confirm": "Valider",
+      "cancel": "Annuler",
+      "verifying": "Vérification en cours",
+      "close": "Fermer",
+      "errors": {
+        "required": "Saisissez le code de vérification.",
+        "wrongCode": "Code incorrect. Il vous reste {n} essai. | Code incorrect. Il vous reste {n} essais."
+      }
+    },
+    "errors": {
+      "number": {
+        "required": "Saisissez le numéro de carte.",
+        "invalid": "Vérifiez le numéro de carte : il n'est pas valide."
+      },
+      "expiry": {
+        "required": "Saisissez la date d'expiration.",
+        "format": "Saisissez la date d'expiration au format MM/AA.",
+        "past": "Cette carte est expirée."
+      },
+      "cvc": {
+        "required": "Saisissez le cryptogramme.",
+        "format": "Le cryptogramme comporte 3 ou 4 chiffres."
+      },
+      "name": "Saisissez le nom du titulaire, tel qu'il figure sur la carte."
     }
   }
 }

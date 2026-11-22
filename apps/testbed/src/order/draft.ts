@@ -11,6 +11,9 @@ export interface OrderDraft {
   country: Country | '';
   pickupPoint: PickupPointId | '';
   instructions: string;
+  acceptedTerms: boolean;
+  /** Réservation obtenue en validant le récapitulatif : elle ouvre l'étape de paiement. */
+  reservation: string | null;
 }
 
 export interface PlacedOrder {
@@ -29,7 +32,9 @@ const empty = (): OrderDraft => ({
   city: '',
   country: '',
   pickupPoint: '',
-  instructions: ''
+  instructions: '',
+  acceptedTerms: false,
+  reservation: null
 });
 
 function restore(): OrderDraft {
@@ -41,7 +46,10 @@ function restore(): OrderDraft {
   }
 }
 
-/** Brouillon de commande, conservé pour l'onglet : un rechargement ne perd pas la saisie. */
+/**
+ * Brouillon de commande, conservé pour l'onglet : un rechargement ne perd pas la saisie.
+ * Les données de carte n'y figurent jamais : elles restent dans l'état local de l'étape paiement.
+ */
 export const draft = reactive<OrderDraft>(restore());
 
 watch(draft, (value) => {

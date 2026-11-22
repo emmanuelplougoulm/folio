@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
@@ -12,22 +12,21 @@ import {
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
 import { PICKUP_POINTS, deliveryFee, offerPrice } from '../../order/catalog';
-import { draft, lastOrder, resetDraft } from '../../order/draft';
+import { draft } from '../../order/draft';
 import { formatPrice } from '../../order/format';
-import { placeOrder } from '../../services/orders';
+import { reserveOrder } from '../../services/orders';
 import type { Locale } from '../../i18n';
 
 const { t, locale } = useI18n();
 const router = useRouter();
 
-const accepted = ref(false);
 const submitted = ref(false);
 const pending = ref(false);
 const failure = ref<'pickup-point-unavailable' | null>(null);
 const summary = ref<ErrorSummaryItem[]>([]);
 
 const termsError = computed(() =>
-  submitted.value && !accepted.value ? t('order.errors.terms') : undefined
+  submitted.value && !draft.acceptedTerms ? t('order.errors.terms') : undefined
 );
 const price = (cents: number) => formatPrice(cents, locale.value as Locale);
 const offer = computed(() => (draft.offer ? offerPrice(draft.offer) : 0));
@@ -35,6 +34,11 @@ const fee = computed(() => (draft.method ? deliveryFee(draft.method) : 0));
 const pickupLabel = computed(
   () => PICKUP_POINTS.find((p) => p.id === draft.pickupPoint)?.label
 );
+
+// Revenir au récapitulatif invalide la réservation : la livraison a pu changer.
+onMounted(() => {
+  draft.reservation = null;
+});
 
 async function onSubmit() {
   submitted.value = true;
@@ -44,14 +48,13 @@ async function onSubmit() {
 
   pending.value = true;
   try {
-    const result = await placeOrder(draft);
+    const result = await reserveOrder(draft);
     if (!result.ok) {
       failure.value = result.reason;
       return;
     }
-    lastOrder.value = { number: result.number };
-    resetDraft();
-    await router.push({ name: 'order-confirmation', params: { locale: locale.value } });
+    draft.reservation = result.reservation;
+    await router.push({ name: 'order-payment', params: { locale: locale.value } });
   } finally {
     pending.value = false;
   }
@@ -135,7 +138,7 @@ async function onSubmit() {
 
       <FCheckbox
         id="terms"
-        v-model="accepted"
+        v-model="draft.acceptedTerms"
         :label="t('order.review.terms')"
         :error="termsError"
         required

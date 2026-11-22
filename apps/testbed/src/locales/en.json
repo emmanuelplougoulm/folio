@@ -62,7 +62,8 @@
     "steps": {
       "offer": "Plan",
       "delivery": "Delivery",
-      "review": "Review"
+      "review": "Review",
+      "payment": "Payment"
     },
     "stepStatus": {
       "complete": "Completed",
@@ -127,8 +128,8 @@
       "edit": "Change",
       "total": "First month total",
       "terms": "I accept the terms and conditions of sale",
-      "submit": "Confirm order",
-      "submitting": "Confirming your order",
+      "submit": "Continue to payment",
+      "submitting": "Reserving your order",
       "failedTitle": "Couldn't place your order",
       "pickupUnavailable": "This pickup point no longer accepts parcels. Choose another point or home delivery.",
       "changeDelivery": "Change delivery"
@@ -154,6 +155,63 @@
       "country": "Choose a country.",
       "pickupPoint": "Choose a pickup point.",
       "terms": "Accept the terms and conditions of sale to confirm your order."
+    }
+  },
+  "payment": {
+    "title": "Payment",
+    "total": "Total to pay",
+    "number": "Card number",
+    "numberHint": "The long number on the front of your card.",
+    "expiry": "Expiry date",
+    "expiryHint": "As MM/YY, for example 04/28.",
+    "cvc": "Security code",
+    "cvcHint": "The 3 digits on the back of your card.",
+    "name": "Name on card",
+    "submit": "Pay {amount}",
+    "submitting": "Processing payment",
+    "failedTitle": "Payment unsuccessful",
+    "failures": {
+      "declined": "Your bank declined the payment. Try another card.",
+      "insufficientFunds": "The card has insufficient funds. Try another card.",
+      "challengeFailed": "Verification failed too many times. You haven't been charged.",
+      "challengeCancelled": "You cancelled verification. You haven't been charged."
+    },
+    "testCards": {
+      "title": "Test cards",
+      "intro": "Mock payment: use any future date and any security code.",
+      "success": "Payment succeeds",
+      "challenge": "3-D Secure verification",
+      "declined": "Card declined",
+      "insufficientFunds": "Insufficient funds"
+    },
+    "challenge": {
+      "title": "Confirm your payment",
+      "description": "Enter the code we sent you by text. Demo: {code}.",
+      "code": "Verification code",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "verifying": "Verifying",
+      "close": "Close",
+      "errors": {
+        "required": "Enter the verification code.",
+        "wrongCode": "Incorrect code. You have {n} attempt left. | Incorrect code. You have {n} attempts left."
+      }
+    },
+    "errors": {
+      "number": {
+        "required": "Enter your card number.",
+        "invalid": "Check your card number: it isn't valid."
+      },
+      "expiry": {
+        "required": "Enter the expiry date.",
+        "format": "Enter the expiry date as MM/YY.",
+        "past": "This card has expired."
+      },
+      "cvc": {
+        "required": "Enter the security code.",
+        "format": "The security code is 3 or 4 digits."
+      },
+      "name": "Enter the name as it appears on the card."
     }
   }
 }

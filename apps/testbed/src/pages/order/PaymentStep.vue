@@ -1,0 +1,322 @@
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import {
+  FAlert,
+  FButton,
+  FDescriptionList,
+  FDialog,
+  FErrorSummary,
+  FFormField,
+  FTextInput,
+  type ErrorSummaryItem
+} from '@emmanuelplougoulm/folio';
+import { deliveryFee, offerPrice } from '../../order/catalog';
+import { draft, lastOrder, resetDraft } from '../../order/draft';
+import { formatPrice } from '../../order/format';
+import { CHALLENGE_CODE, TEST_CARDS } from '../../mocks/cards';
+import {
+  formatCardNumber,
+  formatExpiry,
+  validateCard,
+  type CardField,
+  type CardInput
+} from '../../payment/card';
+import { confirmChallenge, pay } from '../../services/payments';
+import { toSummary } from '../../forms/summary';
+import type { Locale } from '../../i18n';
+
+const { t, locale } = useI18n();
+const router = useRouter();
+
+type Failure =
+  'declined' | 'insufficient-funds' | 'challenge-failed' | 'challenge-cancelled';
+
+// Données de carte : état local uniquement, jamais dans le brouillon ni dans sessionStorage.
+const card = reactive<CardInput>({ number: '', expiry: '', cvc: '', name: '' });
+const submitted = ref(false);
+const pending = ref(false);
+const failure = ref<Failure | null>(null);
+const summary = ref<ErrorSummaryItem[]>([]);
+
+const challenge = reactive({ open: false, id: '', code: '', error: '', pending: false });
+
+const FIELDS: CardField[] = ['number', 'expiry', 'cvc', 'name'];
+const errors = computed(() => (submitted.value ? validateCard(card) : {}));
+const message = (field: CardField) => {
+  const key = errors.value[field];
+  return key ? t(key) : undefined;
+};
+
+const price = (cents: number) => formatPrice(cents, locale.value as Locale);
+const total = computed(
+  () =>
+    (draft.offer ? offerPrice(draft.offer) : 0) +
+    (draft.method ? deliveryFee(draft.method) : 0)
+);
+const amounts = computed(() => [
+  {
+    term: draft.offer ? t(`order.offers.${draft.offer}.name`) : '',
+    details: price(draft.offer ? offerPrice(draft.offer) : 0)
+  },
+  {
+    term: draft.method ? t(`order.delivery.methods.${draft.method}.name`) : '',
+    details:
+      draft.method && deliveryFee(draft.method) > 0
+        ? price(deliveryFee(draft.method))
+        : t('order.free')
+  },
+  { term: t('payment.total'), details: price(total.value) }
+]);
+const testCards = computed(() => [
+  { term: t('payment.testCards.success'), details: TEST_CARDS.success },
+  { term: t('payment.testCards.challenge'), details: TEST_CARDS.challenge },
+  { term: t('payment.testCards.declined'), details: TEST_CARDS.declined },
+  {
+    term: t('payment.testCards.insufficientFunds'),
+    details: TEST_CARDS.insufficientFunds
+  }
+]);
+
+async function complete(orderNumber: string) {
+  lastOrder.value = { number: orderNumber };
+  resetDraft();
+  await router.push({ name: 'order-confirmation', params: { locale: locale.value } });
+}
+
+async function onSubmit() {
+  submitted.value = true;
+  failure.value = null;
+  summary.value = toSummary(FIELDS, errors.value, t, {
+    number: 'cardNumber',
+    expiry: 'cardExpiry',
+    cvc: 'cardCvc',
+    name: 'cardName'
+  });
+  if (summary.value.length || !draft.reservation) return;
+
+  pending.value = true;
+  try {
+    const result = await pay(draft.reservation, card);
+    if (result.status === 'succeeded') await complete(result.orderNumber);
+    else if (result.status === 'failed') failure.value = result.reason;
+    else
+      Object.assign(challenge, {
+        open: true,
+        id: result.challengeId,
+        code: '',
+        error: ''
+      });
+  } finally {
+    pending.value = false;
+  }
+}
+
+async function onConfirmChallenge() {
+  if (!challenge.code.trim()) {
+    challenge.error = t('payment.challenge.errors.required');
+    return;
+  }
+  challenge.pending = true;
+  try {
+    const result = await confirmChallenge(challenge.id, challenge.code);
+    if (result.status === 'succeeded') {
+      challenge.open = false;
+      await complete(result.orderNumber);
+    } else if (result.status === 'wrong-code') {
+      challenge.error = t('payment.challenge.errors.wrongCode', result.attemptsLeft);
+      challenge.code = '';
+    } else {
+      challenge.open = false;
+      failure.value = result.reason;
+    }
+  } finally {
+    challenge.pending = false;
+  }
+}
+
+function onChallengeDismiss() {
+  failure.value = 'challenge-cancelled';
+}
+
+function onCancelChallenge() {
+  challenge.open = false;
+  failure.value = 'challenge-cancelled';
+}
+
+const failureMessage = computed(() => {
+  switch (failure.value) {
+    case 'declined':
+      return t('payment.failures.declined');
+    case 'insufficient-funds':
+      return t('payment.failures.insufficientFunds');
+    case 'challenge-failed':
+      return t('payment.failures.challengeFailed');
+    case 'challenge-cancelled':
+      return t('payment.failures.challengeCancelled');
+    default:
+      return '';
+  }
+});
+</script>
+
+<template>
+  <section>
+    <h1 class="tb-title">{{ t('payment.title') }}</h1>
+
+    <FDescriptionList :items="amounts" class="tb-order__block" />
+
+    <FErrorSummary
+      :title="t('order.errorSummary', summary.length)"
+      :errors="summary"
+      class="tb-order__block"
+    />
+    <FAlert
+      v-if="failure"
+      :tone="failure === 'challenge-cancelled' ? 'warning' : 'danger'"
+      live="assertive"
+      :title="t('payment.failedTitle')"
+      class="tb-order__block"
+    >
+      {{ failureMessage }}
+    </FAlert>
+
+    <form class="tb-order__form" novalidate @submit.prevent="onSubmit">
+      <FFormField
+        id="cardNumber"
+        :label="t('payment.number')"
+        :hint="t('payment.numberHint')"
+        :error="message('number')"
+        required
+      >
+        <FTextInput
+          v-model="card.number"
+          name="cc-number"
+          autocomplete="cc-number"
+          inputmode="numeric"
+          spellcheck="false"
+          @blur="card.number = formatCardNumber(card.number)"
+        />
+      </FFormField>
+      <div class="tb-payment__row">
+        <FFormField
+          id="cardExpiry"
+          :label="t('payment.expiry')"
+          :hint="t('payment.expiryHint')"
+          :error="message('expiry')"
+          required
+        >
+          <FTextInput
+            v-model="card.expiry"
+            name="cc-exp"
+            autocomplete="cc-exp"
+            inputmode="numeric"
+            @blur="card.expiry = formatExpiry(card.expiry)"
+          />
+        </FFormField>
+        <FFormField
+          id="cardCvc"
+          :label="t('payment.cvc')"
+          :hint="t('payment.cvcHint')"
+          :error="message('cvc')"
+          required
+        >
+          <FTextInput
+            v-model="card.cvc"
+            name="cc-csc"
+            autocomplete="cc-csc"
+            inputmode="numeric"
+          />
+        </FFormField>
+      </div>
+      <FFormField
+        id="cardName"
+        :label="t('payment.name')"
+        :error="message('name')"
+        required
+      >
+        <FTextInput v-model="card.name" name="cc-name" autocomplete="cc-name" />
+      </FFormField>
+
+      <div class="tb-order__nav">
+        <FButton
+          :as="RouterLink"
+          :to="{ name: 'order-review', params: { locale } }"
+          variant="ghost"
+        >
+          {{ t('order.back') }}
+        </FButton>
+        <FButton
+          type="submit"
+          variant="primary"
+          size="lg"
+          :loading="pending"
+          :loading-label="t('payment.submitting')"
+        >
+          {{ t('payment.submit', { amount: price(total) }) }}
+        </FButton>
+      </div>
+    </form>
+
+    <FAlert :title="t('payment.testCards.title')" class="tb-order__block">
+      <p class="tb-payment__note">{{ t('payment.testCards.intro') }}</p>
+      <FDescriptionList :items="testCards" layout="stacked">
+        <template #details="{ item }"
+          ><code class="tb-code">{{ item.details }}</code></template
+        >
+      </FDescriptionList>
+    </FAlert>
+
+    <FDialog
+      v-model:open="challenge.open"
+      :title="t('payment.challenge.title')"
+      :description="t('payment.challenge.description', { code: CHALLENGE_CODE })"
+      :close-label="t('payment.challenge.close')"
+      :dismissible="!challenge.pending"
+      @dismiss="onChallengeDismiss"
+    >
+      <form id="challenge-form" novalidate @submit.prevent="onConfirmChallenge">
+        <FFormField
+          id="challengeCode"
+          :label="t('payment.challenge.code')"
+          :error="challenge.error || undefined"
+          required
+        >
+          <FTextInput
+            v-model="challenge.code"
+            name="one-time-code"
+            autocomplete="one-time-code"
+            inputmode="numeric"
+          />
+        </FFormField>
+      </form>
+      <template #footer>
+        <FButton :disabled="challenge.pending" @click="onCancelChallenge">{{
+          t('payment.challenge.cancel')
+        }}</FButton>
+        <FButton
+          type="submit"
+          form="challenge-form"
+          variant="primary"
+          :loading="challenge.pending"
+          :loading-label="t('payment.challenge.verifying')"
+        >
+          {{ t('payment.challenge.confirm') }}
+        </FButton>
+      </template>
+    </FDialog>
+  </section>
+</template>
+
+<style>
+.tb-payment__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--f-space-4);
+}
+
+.tb-payment__note {
+  margin: 0 0 var(--f-space-2);
+}
+</style>

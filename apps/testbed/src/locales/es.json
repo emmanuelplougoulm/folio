@@ -62,7 +62,8 @@
     "steps": {
       "offer": "Oferta",
       "delivery": "Entrega",
-      "review": "Resumen"
+      "review": "Resumen",
+      "payment": "Pago"
     },
     "stepStatus": {
       "complete": "Completado",
@@ -127,8 +128,8 @@
       "edit": "Modificar",
       "total": "Total del primer mes",
       "terms": "Acepto las condiciones generales de venta",
-      "submit": "Confirmar el pedido",
-      "submitting": "Confirmando el pedido",
+      "submit": "Continuar al pago",
+      "submitting": "Reservando el pedido",
       "failedTitle": "No se ha podido realizar el pedido",
       "pickupUnavailable": "Este punto de recogida ya no acepta paquetes. Elige otro punto o la entrega a domicilio.",
       "changeDelivery": "Modificar la entrega"
@@ -154,6 +155,63 @@
       "country": "Elige un país.",
       "pickupPoint": "Elige un punto de recogida.",
       "terms": "Acepta las condiciones generales de venta para confirmar el pedido."
+    }
+  },
+  "payment": {
+    "title": "Pago",
+    "total": "Total a pagar",
+    "number": "Número de tarjeta",
+    "numberHint": "Los 16 dígitos del anverso de la tarjeta.",
+    "expiry": "Fecha de caducidad",
+    "expiryHint": "Con el formato MM/AA, por ejemplo 04/28.",
+    "cvc": "Código de seguridad",
+    "cvcHint": "Los 3 dígitos del reverso de la tarjeta.",
+    "name": "Nombre del titular",
+    "submit": "Pagar {amount}",
+    "submitting": "Procesando el pago",
+    "failedTitle": "No se ha podido completar el pago",
+    "failures": {
+      "declined": "Tu banco ha rechazado el pago. Prueba con otra tarjeta.",
+      "insufficientFunds": "El saldo de la tarjeta es insuficiente. Prueba con otra tarjeta.",
+      "challengeFailed": "La verificación ha fallado demasiadas veces. No se ha cobrado ningún importe.",
+      "challengeCancelled": "Has cancelado la verificación. No se ha cobrado ningún importe."
+    },
+    "testCards": {
+      "title": "Tarjetas de prueba",
+      "intro": "Pago simulado: usa una fecha futura y cualquier código de seguridad.",
+      "success": "Pago aceptado",
+      "challenge": "Verificación 3-D Secure",
+      "declined": "Tarjeta rechazada",
+      "insufficientFunds": "Saldo insuficiente"
+    },
+    "challenge": {
+      "title": "Confirma tu pago",
+      "description": "Introduce el código recibido por SMS. Demo: {code}.",
+      "code": "Código de verificación",
+      "confirm": "Validar",
+      "cancel": "Cancelar",
+      "verifying": "Verificando",
+      "close": "Cerrar",
+      "errors": {
+        "required": "Introduce el código de verificación.",
+        "wrongCode": "Código incorrecto. Te queda {n} intento. | Código incorrecto. Te quedan {n} intentos."
+      }
+    },
+    "errors": {
+      "number": {
+        "required": "Introduce el número de tarjeta.",
+        "invalid": "Revisa el número de tarjeta: no es válido."
+      },
+      "expiry": {
+        "required": "Introduce la fecha de caducidad.",
+        "format": "Introduce la fecha de caducidad con el formato MM/AA.",
+        "past": "Esta tarjeta ha caducado."
+      },
+      "cvc": {
+        "required": "Introduce el código de seguridad.",
+        "format": "El código de seguridad tiene 3 o 4 dígitos."
+      },
+      "name": "Introduce el nombre tal y como aparece en la tarjeta."
     }
   }
 }

@@ -52,7 +52,8 @@ export const router = createRouter({
               component: {
                 offer: () => import('./pages/order/OfferStep.vue'),
                 delivery: () => import('./pages/order/DeliveryStep.vue'),
-                review: () => import('./pages/order/ReviewStep.vue')
+                review: () => import('./pages/order/ReviewStep.vue'),
+                payment: () => import('./pages/order/PaymentStep.vue')
               }[id],
               meta: { titleKey: `order.steps.${id}`, step }
             }))
