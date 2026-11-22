@@ -32,7 +32,10 @@ export default {
         'color-named': 'never',
         'function-disallowed-list': ['rgb', 'rgba', 'hsl', 'hsla', 'oklch', 'lab', 'lch'],
         'selector-max-universal': 0,
-        'selector-max-type': [0, { ignore: ['compounded', 'descendant'] }],
+        'selector-max-type': [
+          0,
+          { ignore: ['compounded', 'descendant'], ignoreTypes: ['svg'] }
+        ],
         'selector-disallowed-list': [
           [':root', 'html', 'body'],
           { message: 'Pas de style global dans un composant' }

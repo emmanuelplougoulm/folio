@@ -38,6 +38,8 @@ export default defineConfigWithVueTs(
       'vue/require-v-for-key': 'error',
       'vue/no-unused-properties': 'error',
       'vue/no-bare-strings-in-template': 'error',
+      // Avec defineProps typé, l'optionnalité est portée par le type.
+      'vue/require-default-prop': 'off',
       '@typescript-eslint/consistent-type-imports': 'error'
     }
   },
