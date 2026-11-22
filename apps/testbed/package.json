@@ -8,15 +8,18 @@
     "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview --port 4173 --strictPort",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test": "vitest run --environment happy-dom src"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65",
     "@types/node": "^22",
     "@vitejs/plugin-vue": "^6",
+    "happy-dom": "^21",
     "typescript": "~6.0.3",
     "vite": "^8",
+    "vitest": "^5",
     "vue-tsc": "^3"
   },
   "dependencies": {
