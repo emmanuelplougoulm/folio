@@ -32,6 +32,7 @@ describe('FDialog', () => {
     setup();
     await userEvent.click(screen.getByRole('button', { name: 'Payer' }));
     const dialog = await screen.findByRole('dialog', { name: 'Confirmez le paiement' });
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
     expect(dialog).toHaveAccessibleDescription('Saisissez le code reçu par SMS.');
     await waitFor(() => {
       expect(dialog.contains(document.activeElement)).toBe(true);

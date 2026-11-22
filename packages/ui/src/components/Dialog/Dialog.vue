@@ -48,12 +48,14 @@ function onOpenChange(value: boolean) {
 </script>
 
 <template>
-  <!-- Reka UI : role=dialog, aria-modal, piège à focus, Échap et retour du focus au déclencheur. -->
+  <!-- Reka UI : role=dialog, piège à focus, Échap et retour du focus au déclencheur. -->
   <DialogRoot :open="open" @update:open="onOpenChange">
     <DialogPortal>
       <DialogOverlay class="f-dialog__overlay" />
+      <!-- aria-modal explicite : Reka masque le reste de la page (aria-hidden) sans le poser. -->
       <DialogContent
         class="f-dialog"
+        aria-modal="true"
         v-bind="description ? {} : { 'aria-describedby': undefined }"
         @interact-outside="(event: Event) => !dismissible && event.preventDefault()"
         @escape-key-down="(event: Event) => !dismissible && event.preventDefault()"
