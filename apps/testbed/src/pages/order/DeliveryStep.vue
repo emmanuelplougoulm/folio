@@ -4,6 +4,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
   FButton,
+  FCombobox,
   FErrorSummary,
   FFormField,
   FRadioGroup,
@@ -57,7 +58,8 @@ const countries = computed(() =>
 );
 const pickupPoints = PICKUP_POINTS.map((point) => ({
   value: point.id,
-  label: point.label
+  label: point.name,
+  description: point.address
 }));
 const counter = (length: number, max: number) =>
   t('order.delivery.instructionsCounter', { count: max - length });
@@ -174,10 +176,12 @@ async function onSubmit() {
         :error="message('pickupPoint')"
         required
       >
-        <FSelect
+        <FCombobox
           v-model="draft.pickupPoint"
           :options="pickupPoints"
           :placeholder="t('order.delivery.pickupPointPlaceholder')"
+          :empty-label="t('order.delivery.pickupPointEmpty')"
+          :toggle-label="t('order.delivery.pickupPointToggle')"
         />
       </FFormField>
 

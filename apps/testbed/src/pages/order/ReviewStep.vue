@@ -31,9 +31,10 @@ const termsError = computed(() =>
 const price = (cents: number) => formatPrice(cents, locale.value as Locale);
 const offer = computed(() => (draft.offer ? offerPrice(draft.offer) : 0));
 const fee = computed(() => (draft.method ? deliveryFee(draft.method) : 0));
-const pickupLabel = computed(
-  () => PICKUP_POINTS.find((p) => p.id === draft.pickupPoint)?.label
-);
+const pickupLabel = computed(() => {
+  const point = PICKUP_POINTS.find((p) => p.id === draft.pickupPoint);
+  return point ? `${point.name}, ${point.address}` : '';
+});
 
 // Revenir au récapitulatif invalide la réservation : la livraison a pu changer.
 onMounted(() => {

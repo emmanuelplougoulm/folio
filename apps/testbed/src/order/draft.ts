@@ -1,5 +1,5 @@
 import { reactive, ref, watch } from 'vue';
-import type { Country, DeliveryMethod, OfferId, PickupPointId } from './catalog';
+import type { Country, DeliveryMethod, OfferId } from './catalog';
 
 export interface OrderDraft {
   offer: OfferId | undefined;
@@ -9,7 +9,8 @@ export interface OrderDraft {
   postalCode: string;
   city: string;
   country: Country | '';
-  pickupPoint: PickupPointId | '';
+  /** Identifiant d'un point de PICKUP_POINTS, ou vide. */
+  pickupPoint: string;
   instructions: string;
   acceptedTerms: boolean;
   /** Réservation obtenue en validant le récapitulatif : elle ouvre l'étape de paiement. */

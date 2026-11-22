@@ -10,6 +10,7 @@ import {
   FErrorSummary,
   FFormField,
   FTextInput,
+  FTooltip,
   type ErrorSummaryItem
 } from '@emmanuelplougoulm/folio';
 import { deliveryFee, offerPrice } from '../../order/catalog';
@@ -259,15 +260,30 @@ const failureMessage = computed(() => {
         >
           {{ t('order.back') }}
         </FButton>
-        <FButton
-          type="submit"
-          variant="primary"
-          size="lg"
-          :loading="pending"
-          :loading-label="t('payment.submitting')"
-        >
-          {{ t('payment.submit', { amount: price(total) }) }}
-        </FButton>
+        <div class="tb-payment__submit">
+          <FTooltip :content="t('payment.security.tooltip')">
+            <button
+              type="button"
+              class="tb-payment__security"
+              :aria-label="t('payment.security.label')"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M8 1a3.5 3.5 0 0 0-3.5 3.5V6H4a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 4 15h8a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 12 6h-.5V4.5A3.5 3.5 0 0 0 8 1Zm-2 3.5a2 2 0 1 1 4 0V6H6V4.5Z"
+                />
+              </svg>
+            </button>
+          </FTooltip>
+          <FButton
+            type="submit"
+            variant="primary"
+            size="lg"
+            :loading="pending"
+            :loading-label="t('payment.submitting')"
+          >
+            {{ t('payment.submit', { amount: price(total) }) }}
+          </FButton>
+        </div>
       </div>
     </form>
 
@@ -326,6 +342,37 @@ const failureMessage = computed(() => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--f-space-4);
+}
+
+.tb-payment__submit {
+  display: flex;
+  gap: var(--f-space-3);
+  align-items: center;
+}
+
+.tb-payment__security {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  padding: 0;
+  color: var(--f-color-text-muted);
+  cursor: help;
+  background: transparent;
+  border: var(--f-border-width-thin) solid var(--f-color-border);
+  border-radius: var(--f-radius-full);
+}
+
+.tb-payment__security > svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  fill: currentcolor;
+}
+
+.tb-payment__security:focus-visible {
+  outline: var(--f-focus-width) solid var(--f-color-focus);
+  outline-offset: var(--f-focus-offset);
 }
 
 .tb-payment__note {

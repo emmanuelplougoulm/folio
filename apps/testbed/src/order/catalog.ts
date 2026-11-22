@@ -24,9 +24,18 @@ export const POSTAL_CODE: Record<Country, RegExp> = {
 
 /** Points relais fictifs. « closed » est refusé à la confirmation (branche d'erreur serveur). */
 export const PICKUP_POINTS = [
-  { id: 'lyon-2', label: 'Librairie du Rhône, 12 quai Saint-Antoine, 69002 Lyon' },
-  { id: 'bruxelles-1', label: 'Épicerie Sablon, 4 rue de Rollebeek, 1000 Bruxelles' },
-  { id: 'closed', label: 'Kiosque de la gare, 1 place de la Gare, 59000 Lille' }
+  {
+    id: 'lyon-2',
+    name: 'Librairie du Rhône',
+    address: '12 quai Saint-Antoine, 69002 Lyon'
+  },
+  {
+    id: 'bruxelles-1',
+    name: 'Épicerie Sablon',
+    address: '4 rue de Rollebeek, 1000 Bruxelles'
+  },
+  { id: 'sevilla-1', name: 'Quiosco Triana', address: 'Calle Betis 20, 41010 Sevilla' },
+  { id: 'closed', name: 'Kiosque de la gare', address: '1 place de la Gare, 59000 Lille' }
 ] as const;
 export type PickupPointId = (typeof PICKUP_POINTS)[number]['id'];
 

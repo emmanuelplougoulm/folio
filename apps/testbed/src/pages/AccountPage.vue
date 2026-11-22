@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
+  FAlert,
   FBadge,
+  FBreadcrumb,
   FButton,
   FEmptyState,
   FPagination,
+  FSkeleton,
   FSwitch,
   FTable,
   FTabs,
@@ -16,7 +19,8 @@ import {
 } from '@emmanuelplougoulm/folio';
 import { session } from '../services/session';
 import { loadPreferences, savePreferences } from '../services/preferences';
-import { useOrdersOf, type OrderStatus } from '../order/history';
+import { useOrdersOf, type OrderStatus, type StoredOrder } from '../order/history';
+import { fetchOrders } from '../services/ordersApi';
 import { formatPrice } from '../order/format';
 import type { Locale } from '../i18n';
 
@@ -36,7 +40,26 @@ const tab = computed<Tab>({
   set: (value) =>
     void router.replace({ query: { ...route.query, tab: value, page: undefined } })
 });
-const orders = useOrdersOf(() => session.user.value?.email);
+const source = useOrdersOf(() => session.user.value?.email);
+
+// Historique chargé (simulé) : état de chargement, puis erreur ou données.
+const loadState = ref<'loading' | 'error' | 'ready'>('loading');
+const loaded = ref<StoredOrder[]>([]);
+let attempts = 0;
+async function loadOrders() {
+  loadState.value = 'loading';
+  attempts += 1;
+  try {
+    // ?simulate=orders-error : la première tentative échoue, « Réessayer » réussit.
+    const fail = route.query['simulate'] === 'orders-error' && attempts === 1;
+    loaded.value = await fetchOrders(source.value, { fail });
+    loadState.value = 'ready';
+  } catch {
+    loadState.value = 'error';
+  }
+}
+onMounted(loadOrders);
+const orders = computed(() => (loadState.value === 'ready' ? loaded.value : []));
 const pageCount = computed(() => Math.max(1, Math.ceil(orders.value.length / PAGE_SIZE)));
 const page = computed<number>({
   get: () => {
@@ -48,6 +71,14 @@ const page = computed<number>({
       query: { ...route.query, page: value > 1 ? value : undefined }
     })
 });
+
+const breadcrumb = computed(() => [
+  {
+    label: t('home.breadcrumb'),
+    link: { to: { name: 'home', params: { locale: locale.value } } }
+  },
+  { label: t('account.title') }
+]);
 
 const tabs = computed(() =>
   TABS.map((value) => ({ value, label: t(`account.tabs.${value}`) }))
@@ -112,6 +143,12 @@ async function signOut() {
 </script>
 
 <template>
+  <FBreadcrumb
+    :items="breadcrumb"
+    :label="t('app.breadcrumb')"
+    :as="RouterLink"
+    class="tb-breadcrumb"
+  />
   <h1 class="tb-title">{{ t('account.title') }}</h1>
   <p v-if="session.user.value" class="tb-lead">
     {{
@@ -129,7 +166,22 @@ async function signOut() {
     class="tb-account__tabs"
   >
     <template #orders>
-      <div v-if="orders.length" ref="tableWrapper" class="tb-account__orders">
+      <div v-if="loadState === 'loading'" class="tb-account__orders" aria-busy="true">
+        <p role="status" class="tb-account__loading">{{ t('account.orders.loading') }}</p>
+        <FSkeleton :lines="5" height="2.5rem" shape="block" />
+      </div>
+      <FAlert
+        v-else-if="loadState === 'error'"
+        tone="danger"
+        live="assertive"
+        :title="t('account.orders.errorTitle')"
+      >
+        {{ t('account.orders.errorBody') }}
+        <template #actions>
+          <FButton size="sm" @click="loadOrders">{{ t('account.orders.retry') }}</FButton>
+        </template>
+      </FAlert>
+      <div v-else-if="orders.length" ref="tableWrapper" class="tb-account__orders">
         <FTable
           :caption="t('account.orders.title')"
           :columns="columns"
@@ -226,6 +278,11 @@ async function signOut() {
   display: flex;
   flex-direction: column;
   gap: var(--f-space-4);
+}
+
+.tb-account__loading {
+  margin: 0;
+  color: var(--f-color-text-muted);
 }
 
 .tb-account__preferences {
