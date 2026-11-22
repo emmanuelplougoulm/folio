@@ -70,7 +70,19 @@ pnpm dev
 pnpm check
 ```
 
-`pnpm check` enchaîne la génération des tokens, le formatage, le lint (ESLint + Stylelint), le typecheck (`vue-tsc`), les tests, le build et les tests e2e Playwright du banc d'essai (avec axe, en thème clair et sombre). La CI exécute la même commande.
+`pnpm check` enchaîne la génération des tokens, le formatage, le lint (ESLint + Stylelint), le typecheck (`vue-tsc`), les tests, le build, la vérification du paquet publié (publint, et attw pour la résolution des types) et les tests e2e Playwright du banc d'essai (avec axe, en thème clair et sombre). La CI exécute la même commande.
+
+## Versions et publication
+
+Folio est versionné avec [Changesets](https://github.com/changesets/changesets). Le banc d'essai et les e-mails sont privés : ils ne sont ni versionnés ni publiés.
+
+```bash
+pnpm changeset
+```
+
+Chaque changement visible par les utilisateurs de Folio s'accompagne d'un changeset : le niveau semver et une description. Sur `main`, le workflow `release.yml` regroupe les changesets dans une PR « Version Packages » (version et CHANGELOG). Une fois cette PR fusionnée, il publie sur npm, avec provenance. Il lui faut le secret `NPM_TOKEN`.
+
+Le paquet publié ne contient que `dist`, le README, le CHANGELOG et la licence. Ses exports n'exposent pas la condition `folio-source`, réservée au workspace (`publishConfig.exports`).
 
 ## Licence
 
