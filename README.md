@@ -2,12 +2,13 @@
 
 Folio est un design system Vue 3 sobre et éditorial, accessible par défaut, pensé pour des parcours à formulaires : paiement, multi-étapes, trois langues (FR, EN, ES) et états d'erreur.
 
-> Statut : écran 1 (accueil et connexion). Les composants sont construits au moment où un écran du banc d’essai en a besoin.
+> Statut : 28 composants, construits au moment où un écran du banc d’essai en avait besoin (connexion, tunnel de commande, paiement, compte, erreurs, e-mails).
 
 ## Structure
 
 ```
 packages/ui     @emmanuelplougoulm/folio : composants, tokens, Storybook
+packages/emails @folio/emails : gabarits d'e-mails FR, EN et ES (HTML et texte)
 apps/testbed    l'app banc d'essai (Vue, vue-router, vue-i18n FR/EN/ES)
 ```
 
