@@ -114,7 +114,7 @@ test.describe('tunnel de commande', () => {
     await expect(page).toHaveURL('/fr/order/offer');
   });
 
-  test('récapitulatif : CGV obligatoires, total, confirmation', async ({ page }) => {
+  test('récapitulatif : CGV obligatoires et total, puis paiement', async ({ page }) => {
     await chooseOffer(page);
     await fillHomeAddress(page);
     await continueButton(page).click();
@@ -124,7 +124,7 @@ test.describe('tunnel de commande', () => {
     );
     await expect(page.getByText('24,80 €')).toBeVisible();
 
-    const submit = page.getByRole('button', { name: 'Confirmer la commande' });
+    const submit = page.getByRole('button', { name: 'Continuer vers le paiement' });
     await submit.click();
     await expect(
       page.getByRole('region', { name: 'Le formulaire contient 1 erreur' })
@@ -135,17 +135,8 @@ test.describe('tunnel de commande', () => {
 
     await page.getByLabel("J'accepte les conditions générales de vente").check();
     await submit.click();
-    await expect(page).toHaveURL('/fr/order/confirmation');
-    await expect(
-      page.getByRole('heading', { level: 1, name: 'Commande confirmée' })
-    ).toBeFocused();
-    await expect(page.getByRole('status')).toContainText(
-      /Votre numéro de commande est FO-\d{6}\./
-    );
-
-    // Le brouillon est vidé : une nouvelle commande repart de zéro.
-    await page.goto('/fr/order/delivery');
-    await expect(page).toHaveURL('/fr/order/offer');
+    await expect(page).toHaveURL('/fr/order/payment');
+    await expect(page.getByRole('heading', { level: 1, name: 'Paiement' })).toBeFocused();
   });
 
   test('le lien « Modifier » ramène à l’étape et conserve la saisie', async ({
@@ -167,7 +158,7 @@ test.describe('tunnel de commande', () => {
     await page.getByLabel('Point relais', { exact: true }).selectOption('closed');
     await continueButton(page).click();
     await page.getByLabel("J'accepte les conditions générales de vente").check();
-    await page.getByRole('button', { name: 'Confirmer la commande' }).click();
+    await page.getByRole('button', { name: 'Continuer vers le paiement' }).click();
 
     const alert = page.getByRole('alert');
     await expect(alert).toContainText('Commande impossible');

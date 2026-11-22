@@ -16,6 +16,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm build && pnpm preview',
     port: PORT,
-    reuseExistingServer: !process.env['CI']
+    // Jamais de réutilisation : un serveur resté ouvert servirait un ancien build.
+    reuseExistingServer: false
   }
 });
