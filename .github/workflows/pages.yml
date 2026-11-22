@@ -30,6 +30,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Génération des tokens
+        run: pnpm tokens
+
       - name: Build du banc d'essai sous /folio/
         run: pnpm --filter @folio/testbed build
         env:
