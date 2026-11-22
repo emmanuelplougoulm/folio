@@ -14,8 +14,10 @@
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
     "storybook": "pnpm --filter @emmanuelplougoulm/folio storybook",
-    "check": "pnpm tokens && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "tokens": "pnpm -r --if-present tokens"
+    "check": "pnpm tokens && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+    "tokens": "pnpm -r --if-present tokens",
+    "test:e2e": "pnpm --filter @folio/testbed test:e2e",
+    "dev": "pnpm --filter @folio/testbed dev"
   },
   "devDependencies": {
     "@eslint/js": "^10",

@@ -8,7 +8,7 @@ Folio est un design system Vue 3 sobre et éditorial, accessible par défaut, pe
 
 ```
 packages/ui     @emmanuelplougoulm/folio : composants, tokens, Storybook
-apps/           applications consommatrices (à venir : l'app banc d'essai)
+apps/testbed    l'app banc d'essai (Vue, vue-router, vue-i18n FR/EN/ES)
 ```
 
 ## Principes
@@ -51,10 +51,16 @@ pnpm storybook
 ```
 
 ```bash
+pnpm dev
+```
+
+`pnpm dev` lance le banc d'essai. Dans le workspace, il consomme les sources de Folio grâce à la condition d'export `folio-source` : pas de build préalable, et le rechargement à chaud traverse les deux packages.
+
+```bash
 pnpm check
 ```
 
-`pnpm check` enchaîne le formatage, le lint (ESLint + Stylelint), le typecheck (`vue-tsc`), les tests et le build. La CI exécute la même commande.
+`pnpm check` enchaîne la génération des tokens, le formatage, le lint (ESLint + Stylelint), le typecheck (`vue-tsc`), les tests, le build et les tests e2e Playwright du banc d'essai (avec axe, en thème clair et sombre). La CI exécute la même commande.
 
 ## Licence
 
