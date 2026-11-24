@@ -1,10 +1,13 @@
 name: Release
 
-# Sur main : s'il reste des changesets, ouvre (ou met à jour) la PR « Version Packages ».
-# Une fois cette PR fusionnée, publie la nouvelle version de Folio sur npm, avec provenance.
+# Lancement manuel (onglet Actions) tant que Folio n'est pas publié sur npm.
+# S'il reste des changesets, ouvre (ou met à jour) la PR « chore: version des paquets ».
+# Relancé après la fusion de cette PR, publie la nouvelle version sur npm, avec provenance.
+# Prérequis pour publier : le secret NPM_TOKEN. Pour automatiser plus tard, remettre :
+#   push:
+#     branches: [main]
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write

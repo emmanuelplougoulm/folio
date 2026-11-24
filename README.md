@@ -84,7 +84,7 @@ Folio est versionné avec [Changesets](https://github.com/changesets/changesets)
 pnpm changeset
 ```
 
-Chaque changement visible par les utilisateurs de Folio s'accompagne d'un changeset : le niveau semver et une description. Sur `main`, le workflow `release.yml` regroupe les changesets dans une PR « Version Packages » (version et CHANGELOG). Une fois cette PR fusionnée, il publie sur npm, avec provenance. Il lui faut le secret `NPM_TOKEN`.
+Chaque changement visible par les utilisateurs de Folio s'accompagne d'un changeset : le niveau semver et une description. Le workflow `release.yml` se lance à la main depuis l'onglet Actions, tant que Folio n'est pas publié. Il regroupe les changesets dans une PR « chore: version des paquets » (version et CHANGELOG). Relancé après la fusion de cette PR, il publie sur npm, avec provenance. Il lui faut le secret `NPM_TOKEN`.
 
 Le paquet publié ne contient que `dist`, le README, le CHANGELOG et la licence. Ses exports n'exposent pas la condition `folio-source`, réservée au workspace (`publishConfig.exports`).
 
